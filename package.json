@@ -1,0 +1,35 @@
+{
+  "name": "book_store",
+  "version": "1.0.0",
+  "description": "Team C book store project",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run clean:tmp && parcel src/index.html -p 3000 --out-dir .tmp",
+    "build": "npm run lint && npm run clean && npm run build:parcel",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint-fix": "npm run lint:js:fix && npm run lint:css:fix",
+    "lint:js:fix": "eslint ./src/**/*.js --fix",
+    "lint:css:fix": "stylelint ./src/**/*.css --fix",
+    "lint:css": "stylelint --ignore-path .gitignore ./src/**/*.css",
+    "lint:js": "eslint --ignore-path .gitignore -- ./src",
+    "clean": "npm run clean:build",
+    "clean:tmp": "rimraf ./.tmp",
+    "clean:build": "rimraf ./build",
+    "build:parcel": "parcel build src/index.html --out-dir build --no-cache"
+  },
+  "author": "Team C",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "parcel-bundler": "^1.6.2"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
