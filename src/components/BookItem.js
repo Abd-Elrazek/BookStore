@@ -38,11 +38,38 @@ export default class BookItem extends React.Component {
       return authors.map(
         (author, index) =>
           index !== authors.length - 1 ? (
-            <span key={`${author}`}>{author}, </span>
+            <a href="#" key={`${author}${index}`}>
+              {author},{' '}
+            </a>
           ) : (
-            <span key={`${author}`}>{author}</span>
+            <a href="#" key={`${author}${index}`}>
+              {author}
+            </a>
           ),
       );
+    }
+  };
+
+  showPageCount = pageCount => {
+    if (pageCount !== undefined) {
+      return <span> - Всего страниц: {pageCount}</span>;
+    } else {
+      return null;
+    }
+  };
+
+  showPublisher = publisher => {
+    if (publisher !== undefined) {
+      return <span> {publisher}, </span>;
+    } else {
+      return null;
+    }
+  };
+  showDescription = description => {
+    if (description !== undefined) {
+      return description;
+    } else {
+      return 'Sorry. There is no description yet';
     }
   };
 
@@ -57,20 +84,22 @@ export default class BookItem extends React.Component {
       publishedDate,
       pageCount,
     } = this.props;
-    let authorshtml = this.showAuthors(authors);
+
     return (
       <div className="book-list-item-wrapper">
         <h1 className="book-title">{title}</h1>
         <div className="book-item-content">
           <img src={imageLinks.smallThumbnail} alt="" className="book-img" />
           <div className="book-descr-wrapper">
-            <div className="authors-box">{authorshtml}</div>
+            <div className="authors-box">{this.showAuthors(authors)}</div>
             <div className="book-info">
-              <span>{publisher}, </span>
-              <span>{this.convertPublishedDate(publishedDate)} - </span>
-              <span>Всего страниц: {pageCount}</span>
+              {this.showPublisher(publisher)}
+              <span>{this.convertPublishedDate(publishedDate)}</span>
+              {this.showPageCount(pageCount)}
             </div>
-            <div className="book-description">{description}</div>
+            <div className="book-description">
+              {this.showDescription(description)}
+            </div>
           </div>
         </div>
       </div>
