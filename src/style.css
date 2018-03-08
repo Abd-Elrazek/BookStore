@@ -1,0 +1,40 @@
+ *{
+     margin: 0;
+     padding: 0;
+ }
+ body{
+     font-family: "Segoe UI";
+     font-size: 13px;
+ }
+ ul {
+     list-style-type: none;
+ }
+ .book-list-item-wrapper .book-title {
+     font-size: 22px;
+ }
+ .book-img {
+     float: left;
+     width: 128px;
+ }
+ .book-descr-wrapper {
+     margin-left:150px;
+ }
+ .book-item-content {
+     overflow: hidden;
+     margin-top:30px;
+ }
+
+ .authors-box, .book-info {
+     margin-bottom: 5px;
+     color:#777;
+     font-size: 13px;
+ }
+ .authors-box a {
+     text-decoration: none;
+ }
+
+ .book-description {
+     margin-top: 30px;
+ }
+
+
