@@ -4,7 +4,7 @@
   "description": "Team C book store project",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run clean:tmp && parcel src/index.html -p 3000 --out-dir .tmp",
+    "start": "npm run clean:tmp && parcel src/index.html -p 3000 --out-dir ./tmp",
     "build": "npm run lint && npm run clean && npm run build:parcel",
     "lint": "npm run lint:js && npm run lint:css",
     "lint-fix": "npm run lint:js:fix && npm run lint:css:fix",

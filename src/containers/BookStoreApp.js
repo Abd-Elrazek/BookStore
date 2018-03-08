@@ -1,7 +1,10 @@
 import React from 'react';
 import searchBooks from '../utils/fetchApi';
+//import BooksList from '../components/BooksList';
+import BookItem from '../components/BookItem';
+//import queryParams from '../constants/queryParams';
 
-export default class Booklist extends React.Component {
+export default class BookStoreApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,7 +13,7 @@ export default class Booklist extends React.Component {
   }
 
   componentDidMount() {
-    searchBooks(query, queryParams) //query - это введенное значение в форму поиска, queryParams - значение при выборе(inauthor, inpublisher, intitle)
+    searchBooks('marvel', 'intitle')
       .then(response => response.json())
       .then(data => this.storeBooks(data))
       .catch(error => console.log(error));
@@ -22,14 +25,22 @@ export default class Booklist extends React.Component {
         ...volumeInfo,
       };
     });
+    console.log(books);
     this.setState({ books });
   };
 
   render() {
-            <BooksList {...book} />
-
+    return (
+      <ul>
+        {this.state.books.map(book => (
+          <li key={`${book.id}`}>
+            <BookItem {...book} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
 }
-};
 // в state попадает массив объектов co следующими свойствами:
 
 //  {
