@@ -38,7 +38,7 @@ export default class BookItem extends React.Component {
       publishedDate,
       pageCount,
     } = this.props;
-
+    console.log(authors);
     return (
       <div className="book-list-item-wrapper">
         <h1 className="book-title">{title}</h1>
@@ -46,6 +46,7 @@ export default class BookItem extends React.Component {
           <img src={imageLink} alt="" className="book-img" />
           <div className="book-descr-wrapper">
             <div className="authors-box">
+              {/*{authors}*/}
               {authors.map(
                 (author, index) =>
                   index !== authors.length - 1 ? (

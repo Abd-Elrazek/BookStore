@@ -1,5 +1,6 @@
 import React from 'react';
 import BookItem from './BookItem';
+import searchBooks from '../utils/fetchApi';
 
 export default class Booklist extends React.Component {
   constructor(props) {
@@ -10,13 +11,11 @@ export default class Booklist extends React.Component {
   }
 
   componentDidMount() {
-    const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=x%20men&key=AIzaSyBhs1kVzhyMgedcziSyiezhhhE8Xp5FTQ8&filter=partial&maxResults=40&projection=lite`;
-    fetch(apiUrl)
+    searchBooks('marvel', 'intitle')
       .then(response => response.json())
       .then(data => this.storeBooks(data))
       .catch(error => console.log(error));
   }
-
   storeBooks = data => {
     const books = data.items.map(
       ({
