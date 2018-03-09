@@ -1,6 +1,23 @@
 import React from 'react';
 
+export function Popup(props) {
+  return (
+    <div className="cover-popup" onClick={props.onBlur}>
+      <div className="popup_inner">
+        <img src={props.image.thumbnail} alt="" />
+      </div>
+    </div>
+  );
+}
+
 export default class BookItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      popup: false,
+    };
+  }
+
   convertPublishedDate = date => {
     if (date) {
       let convertedDate = new Date(date);
@@ -73,6 +90,26 @@ export default class BookItem extends React.Component {
     }
   };
 
+  togglePopup = () => {
+    this.setState({
+      popup: !this.state.popup,
+    });
+  };
+
+  showCoverPicture = image => {
+    if (image !== undefined) {
+      return (
+        <div>
+          <a href="#" onClick={this.togglePopup}>
+            <img src={image.smallThumbnail} alt="" className="book-img" />
+          </a>
+        </div>
+      );
+    } else {
+      return <div className="no-img">No image</div>;
+    }
+  };
+
   render() {
     const {
       id,
@@ -89,7 +126,10 @@ export default class BookItem extends React.Component {
       <div className="book-list-item-wrapper">
         <h1 className="book-title">{title}</h1>
         <div className="book-item-content">
-          <img src={imageLinks.smallThumbnail} alt="" className="book-img" />
+          {this.showCoverPicture(imageLinks)}
+          {this.state.popup ? (
+            <Popup image={imageLinks} onBlur={this.togglePopup} />
+          ) : null}
           <div className="book-descr-wrapper">
             <div className="authors-box">{this.showAuthors(authors)}</div>
             <div className="book-info">

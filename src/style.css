@@ -12,9 +12,16 @@
  .book-list-item-wrapper .book-title {
      font-size: 22px;
  }
- .book-img {
+ .book-img, .no-img {
      float: left;
      width: 128px;
+ }
+ .no-img {
+     text-align: center;
+     line-height: 64px;
+     font-size: 14px;
+     font-weight: bold;
+     color: #ccc;
  }
  .book-descr-wrapper {
      margin-left:150px;
@@ -35,6 +42,15 @@
 
  .book-description {
      margin-top: 30px;
+ }
+ .cover-popup {
+     position:fixed;
+     left: 50%;
+     top: 50%;
+     transform: translate(-50%,-50%);
+     z-index: 1;
+     background-color: rgb(0,0,0);
+     background-color: rgba(0,0,0,0.4);
  }
 
 
