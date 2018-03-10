@@ -13,7 +13,7 @@ export default class BookStoreApp extends React.Component {
   }
 
   componentDidMount() {
-    searchBooks('marvel', 'intitle')
+    searchBooks('tolkien', 'inauthor')
       .then(response => response.json())
       .then(data => this.storeBooks(data))
       .catch(error => console.log(error));
