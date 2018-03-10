@@ -11,6 +11,7 @@
  }
  .book-list-item-wrapper .book-title {
      font-size: 22px;
+     cursor: pointer;
  }
  .book-img, .no-img {
      float: left;
@@ -43,14 +44,28 @@
  .book-description {
      margin-top: 30px;
  }
- .cover-popup {
+ .popup-wrapper {
      position:fixed;
      left: 50%;
      top: 50%;
      transform: translate(-50%,-50%);
      z-index: 1;
-     background-color: rgb(0,0,0);
-     background-color: rgba(0,0,0,0.4);
+     border: 1px solid #ccc;
+     padding: 20px;
+    background: #eee;
+     font-size: 20px;
+     font-weight: normal;
+     color: darkred;
+ }
+
+ .close-btn {
+    color: #000000;
+     position: absolute;
+     right: 7px;
+     top: 0;
+     font-size: 15px;
+     font-weight: bold;
+     cursor: pointer;
  }
 
 

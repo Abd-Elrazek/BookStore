@@ -1,8 +1,7 @@
 import React from 'react';
 import searchBooks from '../utils/fetchApi';
-//import BooksList from '../components/BooksList';
-import BookItem from '../components/BookItem';
-//import queryParams from '../constants/queryParams';
+
+import BookItem from './BookItem';
 
 export default class BookStoreApp extends React.Component {
   constructor(props) {
@@ -13,19 +12,19 @@ export default class BookStoreApp extends React.Component {
   }
 
   componentDidMount() {
-    searchBooks('marvel', 'intitle')
+    searchBooks('tolkien', 'inauthor')
       .then(response => response.json())
       .then(data => this.storeBooks(data))
       .catch(error => console.log(error));
   }
   storeBooks = data => {
-    const books = data.items.map(({ id, volumeInfo }) => {
+    const books = data.items.map(({ id, previewLink, volumeInfo }) => {
       return {
         id,
+        previewLink,
         ...volumeInfo,
       };
     });
-    console.log(books);
     this.setState({ books });
   };
 
