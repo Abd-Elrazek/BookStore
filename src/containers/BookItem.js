@@ -122,6 +122,7 @@ export default class BookItem extends React.Component {
   };
 
   render() {
+    console.log(this.props.book);
     const {
       readingModes,
       previewLink,
