@@ -1,7 +1,10 @@
-const searchBooks = (query, queryParams) => {
-  const key = 'AIzaSyBhs1kVzhyMgedcziSyiezhhhE8Xp5FTQ8';
-  const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
-  const apiUrl = `${baseUrl}?q=${queryParams}:${query}&key=${key}&maxResults=40&country=RU`;
-  return fetch(apiUrl);
-};
-export default searchBooks;
+import api from '../constants/api';
+
+const { key, baseUrl } = api;
+
+export const searchBooks = ({ query, queryType, startIndex }) =>
+  fetch(
+    `${baseUrl}?q=${queryType}:${query}&key=${key}&maxResults=10&startIndex=${startIndex}&country=RU`,
+  );
+
+export const searchBookById = id => fetch(`${baseUrl}/${id}?&key=${key}`);

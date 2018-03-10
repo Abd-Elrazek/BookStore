@@ -1,9 +1,10 @@
 {
-  "name": "book_store",
+  "name": "book-search-app",
   "version": "1.0.0",
-  "description": "Team C book store project",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run clean:tmp && parcel src/index.html -p 3000 --out-dir .tmp",
     "build": "npm run lint && npm run clean && npm run build:parcel",
     "lint": "npm run lint:js && npm run lint:css",
@@ -17,19 +18,36 @@
     "clean:build": "rimraf ./build",
     "build:parcel": "parcel build src/index.html --out-dir build --no-cache"
   },
-  "author": "Team C",
+  "author": "Julia Ayubova",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "autoprefixer": "^7.2.5",
+    "babel-eslint": "^8.2.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb": "^16.1.0",
-    "parcel-bundler": "^1.6.2"
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-prettier": "^2.5.0",
+    "eslint-plugin-react": "^7.7.0",
+    "parcel-bundler": "^1.4.1",
+    "postcss-modules": "^1.1.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.10.2",
+    "prettier-stylelint": "^0.4.2",
+    "rimraf": "^2.6.2",
+    "stylelint": "^8.4.0"
   },
   "dependencies": {
+    "immutable": "^3.8.2",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2"
   }
 }
