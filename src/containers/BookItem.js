@@ -26,7 +26,7 @@ export default class BookItem extends React.Component {
   };
 
   showAuthors = authors => {
-    if (authors) {
+    if (authors && authors.length > 0) {
       return authors.map(
         (author, index) =>
           index !== authors.length - 1 ? (
@@ -44,22 +44,18 @@ export default class BookItem extends React.Component {
   };
 
   showPageCount = pageCount => {
-    if (pageCount !== undefined) {
+    if (pageCount) {
       return <span> - Всего страниц: {pageCount}</span>;
-    } else {
-      return null;
     }
   };
 
   showPublisher = publisher => {
-    if (publisher !== undefined) {
+    if (publisher) {
       return <span> {publisher}, </span>;
-    } else {
-      return null;
     }
   };
   showDescription = description => {
-    if (description !== undefined) {
+    if (description) {
       return description;
     } else {
       return 'Sorry. There is no description yet';
@@ -89,7 +85,7 @@ export default class BookItem extends React.Component {
   };
 
   showCoverPicture = image => {
-    if (image !== undefined) {
+    if (image) {
       return (
         <div>
           <a href="#" onClick={e => this.togglePopup(e)}>
@@ -103,7 +99,7 @@ export default class BookItem extends React.Component {
   };
 
   openBook = (url, readingModes) => {
-    if (url !== undefined) {
+    if (url) {
       if (readingModes.image === true) {
         let newUrl = url + '#f=true';
         window.open(newUrl, 'hello', 'width=800,height=1000');
@@ -123,6 +119,7 @@ export default class BookItem extends React.Component {
       readingModes,
       previewLink,
       title,
+      subtitle,
       imageLinks,
       description,
       authors,
@@ -140,6 +137,7 @@ export default class BookItem extends React.Component {
           >
             {title}
           </h1>
+          <span className='subtitle'>{subtitle}</span>
           {this.state.popupNoBook ? (
             <Popup hidePopup={this.togglePopup}>
               <span>Sorry. Could not embed the book</span>
@@ -160,14 +158,17 @@ export default class BookItem extends React.Component {
               {this.showAuthors(authors) || null}
             </div>
             <div className="book-info">
-              {this.showPublisher(publisher)}
+              {this.showPublisher(publisher) || null}
               <span>{this.convertPublishedDate(publishedDate)}</span>
-              {this.showPageCount(pageCount)}
+              {this.showPageCount(pageCount) || null}
             </div>
             <div className="book-description">
               {this.showDescription(description)}
             </div>
           </div>
+        </div>
+        <div className="same-books">
+
         </div>
       </div>
     );

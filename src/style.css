@@ -67,5 +67,9 @@
      font-weight: bold;
      cursor: pointer;
  }
+ .subtitle {
+     font-size: 14px;
+     color: #777777;
+ }
 
 
