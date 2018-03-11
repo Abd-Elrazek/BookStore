@@ -112,6 +112,20 @@ export default class BookItem extends React.Component {
       return null;
     }
   };
+  showOtherBooks = authorsObj => {
+    console.log('dsdsdsd: ' + JSON.stringify(authorsObj));
+    // for (key in authorsObj) {
+    //   console.log('key: '+key);
+			// console.log('book: '+authorsObj[key]);
+    //   // let book = authorsObj[key];
+    //   // return (
+    //   //   <div>
+    //   //     <span> {key}</span>
+    //   //     <span>{book}</span>
+    //   //   </div>
+    //   // );
+    }
+  };
 
   render() {
     console.log(this.props.book);
@@ -127,7 +141,7 @@ export default class BookItem extends React.Component {
       publishedDate,
       pageCount,
     } = this.props.book;
-
+    const authorsObj = this.props.authorsObj;
     return (
       <div className="book-list-item-wrapper">
         <div className="book-title-wrapper" onClick={this.togglePopup}>
@@ -137,7 +151,7 @@ export default class BookItem extends React.Component {
           >
             {title}
           </h1>
-          <span className='subtitle'>{subtitle}</span>
+          <span className="subtitle">{subtitle}</span>
           {this.state.popupNoBook ? (
             <Popup hidePopup={this.togglePopup}>
               <span>Sorry. Could not embed the book</span>
@@ -167,9 +181,7 @@ export default class BookItem extends React.Component {
             </div>
           </div>
         </div>
-        <div className="same-books">
-
-        </div>
+        <div className="same-books">{this.showOtherBooks(authorsObj)}</div>
       </div>
     );
   }

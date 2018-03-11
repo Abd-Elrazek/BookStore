@@ -8,7 +8,7 @@ export default class Bookslist extends React.PureComponent {
     return (
       <div>
         {books.map(book => {
-          return <BookItem key={`${book.id}`} book={book} />;
+          return <BookItem key={`${book.id}`} book={book} authorsObj={this.props.authorsObj} />;
         })}
       </div>
     );
