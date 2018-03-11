@@ -1,6 +1,6 @@
 import React from 'react';
 import Popup from '../components/Popup';
-
+import monthNames from '../constants/months';
 
 export default class BookItem extends React.Component {
   constructor(props) {
@@ -15,37 +15,31 @@ export default class BookItem extends React.Component {
     if (date) {
       let convertedDate = new Date(date);
       let mm = convertedDate.getMonth() + 1;
-      let monthNames = [
-        'января',
-        'февраля',
-        'марта',
-        'апреля',
-        'мая',
-        'июня',
-        'июля',
-        'августа',
-        'сентября',
-        'октября',
-        'ноября',
-        'декабря',
-      ];
       let dd = convertedDate.getDate();
+      let convertedDays = (dd > 9 ? '' : '0') + dd;
+      let yy = convertedDate.getFullYear();
 
-      return [
-        (dd > 9 ? '' : '0') + dd + ' ',
-        monthNames[mm] + ' ',
-        convertedDate.getFullYear(),
-      ].join('');
+      return `${convertedDays} ${monthNames[mm]} ${yy}`;
     } else {
       return null;
     }
   };
 
   showAuthors = authors => {
-    if (authors === undefined) {
-      return null;
-    } else {
-      return authors.join(', ');
+    if (authors) {
+      return authors.map(
+        (author, index) =>
+          index !== authors.length - 1 ? (
+            <a href="#" key={`${index}`}>
+              {author}
+              <span>, </span>
+            </a>
+          ) : (
+            <a href="#" key={`${index}`}>
+              {author}
+            </a>
+          ),
+      );
     }
   };
 
@@ -74,17 +68,19 @@ export default class BookItem extends React.Component {
 
   togglePopup = e => {
     e.preventDefault();
-    let targetWrapper = e.target.parentNode.parentNode;
     if (
-      e.target.tagName === 'IMG' ||
-      targetWrapper.classList.contains('book-img-wrapper')
+      /*если клик произошел на обложке книги или на кнопке "закрыть" обложки книги */
+      (e.target.classList.contains('close-btn') &&
+        e.currentTarget.classList.contains('book-img-wrapper')) ||
+      e.target.classList.contains('book-img')
     ) {
       this.setState({
         popup: !this.state.popup,
       });
     } else if (
-      e.target.tagName === 'H1' ||
-      targetWrapper.classList.contains('book-title-wrapper')
+      /*если клик произошел на кнопке "закрыть" всплывающего окна "Sorry. Could not embed the book" */
+      e.target.classList.contains('close-btn') &&
+      e.currentTarget.classList.contains('book-title-wrapper')
     ) {
       this.setState({
         popupNoBook: !this.state.popupNoBook,
@@ -137,7 +133,7 @@ export default class BookItem extends React.Component {
 
     return (
       <div className="book-list-item-wrapper">
-        <div className="book-title-wrapper">
+        <div className="book-title-wrapper" onClick={this.togglePopup}>
           <h1
             className="book-title"
             onClick={() => this.openBook(previewLink, readingModes)}
@@ -151,16 +147,18 @@ export default class BookItem extends React.Component {
           ) : null}
         </div>
         <div className="book-item-content">
-          <div className="book-img-wrapper">
+          <div className="book-img-wrapper" onClick={this.togglePopup}>
             {this.showCoverPicture(imageLinks)}
             {this.state.popup ? (
-              <Popup hidePopup={this.togglePopup}>
+              <Popup>
                 <img src={imageLinks.thumbnail} alt="" />
               </Popup>
             ) : null}
           </div>
           <div className="book-descr-wrapper">
-            <div className="authors-box">{this.showAuthors(authors)}</div>
+            <div className="authors-box">
+              {this.showAuthors(authors) || null}
+            </div>
             <div className="book-info">
               {this.showPublisher(publisher)}
               <span>{this.convertPublishedDate(publishedDate)}</span>

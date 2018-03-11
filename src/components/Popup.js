@@ -5,7 +5,7 @@ export default function Popup(props) {
   const children = props.children;
   return (
     <div className="popup-wrapper">
-      <span className="close-btn" onClick={hidePopup}>
+      <span className="close-btn">
         x
       </span>
       <div className="popup_inner">{children}</div>
