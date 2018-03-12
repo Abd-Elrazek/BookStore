@@ -1,6 +1,7 @@
 import React from 'react';
 // import { List, Map, fromJS } from 'immutable';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import BookListHeader from './BookListHeader';
 import BooksList from './BooksList';
 import Button from '../components/Button';
@@ -49,3 +50,11 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BooksListPage);
+
+BooksListPage.propTypes = {
+  setStartIndex: PropTypes.func.isRequired,
+  fetchBooks: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  queryType: PropTypes.string.isRequired,
+  startIndex: PropTypes.number.isRequired,
+};

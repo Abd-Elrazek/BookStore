@@ -3,6 +3,7 @@ import {
   SET_QUERY,
   SET_QUERYTYPE,
   SET_STARTINDEX,
+  CLEAR_BOOKS,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -16,6 +17,9 @@ export default function books(state = initialState, action) {
   switch (action.type) {
     case LOAD_BOOKS:
       return { ...state, books: [...state.books, ...action.books] };
+
+    case CLEAR_BOOKS:
+      return { ...state, books: [] };
 
     case SET_QUERY:
       return { ...state, query: action.query };

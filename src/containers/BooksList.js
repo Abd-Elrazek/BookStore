@@ -5,24 +5,19 @@ import BookItem from './BookItem';
 
 class BooksList extends React.PureComponent {
   render() {
-    console.log(this.props);
     const { books } = this.props;
     if (!books) {
       return <div>not loaded</div>;
     }
     return (
       <div>
-        {books.map(book => {
-          return <BookItem key={`${book.id}`} book={book} />;
+        {books.map((book, index) => {
+          return <BookItem key={`${book.id}${index}`} book={book} />;
         })}
       </div>
     );
   }
 }
-
-BooksList.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.object),
-};
 
 const mapStateToProps = state => {
   return {
@@ -31,3 +26,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(BooksList);
+
+BooksList.propTypes = {
+  books: PropTypes.arrayOf(PropTypes.object),
+};

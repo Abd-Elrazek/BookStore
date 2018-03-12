@@ -4,6 +4,7 @@ import {
   SET_QUERY,
   SET_QUERYTYPE,
   SET_STARTINDEX,
+  CLEAR_BOOKS,
 } from './actionTypes';
 
 export function loadBooks(books) {
@@ -44,5 +45,12 @@ export function setStartIndex(startIndex) {
   return {
     type: SET_STARTINDEX,
     startIndex,
+  };
+}
+
+export function clearBooks(books) {
+  return {
+    type: CLEAR_BOOKS,
+    books,
   };
 }

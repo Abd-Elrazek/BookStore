@@ -4,38 +4,34 @@ import { connect } from 'react-redux';
 import TextBox from '../components/TextBox';
 import SelectBox from '../components/SelectBox';
 import Button from '../components/Button';
-import { booksFetch, setQuery, setQueryType } from '../actions';
+import { booksFetch, setQuery, setQueryType, clearBooks } from '../actions';
 import queryParams from '../constants/queryParams';
 
 class BookListHeader extends React.PureComponent {
   render() {
-    console.log(this.props);
+    const {
+      query,
+      setQuery,
+      fetchBooks,
+      clearBooks,
+      queryType,
+      startIndex,
+      setQueryType,
+    } = this.props;
     return (
       <div>
-        <TextBox
-          value={this.props.query}
-          onChange={query => this.props.setQuery(query)}
-        />
+        <TextBox value={query} onChange={query => setQuery(query)} />
         <Button
           onClick={() => {
-            console.log(
-              'onClick:',
-              this.props.query,
-              this.props.queryType,
-              this.props.startIndex,
-            );
-            this.props.fetchBooks(
-              this.props.query,
-              this.props.queryType,
-              this.props.startIndex,
-            );
+            clearBooks();
+            fetchBooks(query, queryType, startIndex);
           }}
         >
           Найти
         </Button>
         <SelectBox
-          value={this.props.queryType}
-          onChange={queryType => this.props.setQueryType(queryType)}
+          value={queryType}
+          onChange={queryType => setQueryType(queryType)}
           options={queryParams}
         />
       </div>
@@ -44,9 +40,7 @@ class BookListHeader extends React.PureComponent {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    books: state.books.books,
     query: state.books.query,
     queryType: state.books.queryType,
     startIndex: state.books.startIndex,
@@ -59,11 +53,18 @@ const mapDispatchToProps = dispatch => {
       dispatch(booksFetch(query, queryType, startIndex)),
     setQuery: query => dispatch(setQuery(query)),
     setQueryType: queryType => dispatch(setQueryType(queryType)),
+    clearBooks: () => dispatch(clearBooks()),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
 
-// BookListHeader.propTypes = {
-//   onSearch: PropTypes.func.isRequired,
-// };
+BookListHeader.propTypes = {
+  fetchBooks: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired,
+  setQueryType: PropTypes.func.isRequired,
+  clearBooks: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  queryType: PropTypes.string.isRequired,
+  startIndex: PropTypes.number.isRequired,
+};

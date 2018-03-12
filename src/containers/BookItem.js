@@ -39,6 +39,8 @@ const BookItem = props => {
   );
 };
 
+export default BookItem;
+
 BookItem.propTypes = {
   book: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -50,5 +52,3 @@ BookItem.propTypes = {
     }),
   }),
 };
-
-export default BookItem;
