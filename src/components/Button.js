@@ -5,7 +5,7 @@ export default function Button({ children, onClick }) {
   return <button onClick={onClick}>{children}</button>;
 }
 
-Button.propTypes = {
-  children: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+// Button.propTypes = {
+//   children: PropTypes.string.isRequired,
+//   onClick: PropTypes.func.isRequired,
+// };

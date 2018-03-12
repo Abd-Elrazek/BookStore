@@ -1,62 +1,50 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { booksFetch } from '../actions';
 // import { List, Map, fromJS } from 'immutable';
+import { connect } from 'react-redux';
 import BookListHeader from './BookListHeader';
 import BooksList from './BooksList';
 import Button from '../components/Button';
+import { booksFetch, setStartIndex } from '../actions';
 
 class BooksListPage extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: {},
-    };
-  }
-
-  onSearchHandler = search => {
-    this.setState({ search }, this.loadBooks);
-  };
-
-  loadBooks() {
-    const { search } = this.state;
-    this.props.fetchBooks(search);
-  }
-
-  onLoadMoreHandler = () => {
-    const newStartIndex = this.state.search.startIndex + 10;
-    this.setState(
-      {
-        search: {
-          ...this.state.search,
-          startIndex: newStartIndex,
-        },
-      },
-      this.loadBooks,
-    );
-  };
-
   render() {
-    const { books } = this.props;
+    const {
+      setStartIndex,
+      startIndex,
+      query,
+      queryType,
+      fetchBooks,
+    } = this.props;
     return (
       <div>
-        <BookListHeader onSearch={this.onSearchHandler} />
-        <BooksList books={books} />
-        <Button onClick={this.onLoadMoreHandler}>More books...</Button>
+        <BookListHeader />
+        <BooksList />
+        <Button
+          onClick={() => {
+            setStartIndex(startIndex);
+            fetchBooks(query, queryType, startIndex);
+          }}
+        >
+          More books...
+        </Button>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapDispatchToProps = dispatch => {
   return {
-    books: state.books,
+    fetchBooks: (query, queryType, startIndex) =>
+      dispatch(booksFetch(query, queryType, startIndex)),
+    setStartIndex: index => dispatch(setStartIndex(index)),
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    fetchBooks: search => dispatch(booksFetch(search)),
+    startIndex: state.books.startIndex,
+    query: state.books.query,
+    queryType: state.books.queryType,
   };
 };
 

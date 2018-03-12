@@ -15,8 +15,8 @@ export default function SelectBox({ value, onChange, options }) {
   );
 }
 
-SelectBox.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+// SelectBox.propTypes = {
+//   value: PropTypes.string.isRequired,
+//   onChange: PropTypes.func.isRequired,
+//   options: PropTypes.arrayOf(PropTypes.object).isRequired,
+// };
