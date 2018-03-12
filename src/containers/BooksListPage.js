@@ -11,7 +11,6 @@ export default class BookListPage extends React.PureComponent {
     this.state = {
       books: [],
       search: {},
-      authorsObj: {},
     };
   }
 
@@ -20,32 +19,20 @@ export default class BookListPage extends React.PureComponent {
   };
 
   loadBooks() {
-    let authorsObj = { ...this.state.authorsObj };
     const { search } = this.state;
 
     searchBooks(search)
       .then(response => response.json())
       .then(data => {
-        /*Собираю в авторов их книги */
-        for (let i = 0; i < data.items.length; i++) {
-          let authorsArr = data.items[i].volumeInfo.authors;
-          if (authorsArr) {
-            for (let k = 0; k < authorsArr.length; k++) {
-              if (!authorsObj[authorsArr[k]]) {
-                authorsObj[authorsArr[k]] = [];
-              }
-              authorsObj[authorsArr[k]].push(data.items[i].volumeInfo.title);
-            }
-          }
-        }
-
         const books = data.items.map(({ id, volumeInfo }) => {
           return {
             id,
             ...volumeInfo,
           };
         });
-        this.setState({ books: [...this.state.books, ...books],authorsObj:authorsObj });
+        this.setState({
+          books: [...this.state.books, ...books],
+        });
       })
       .catch(error => console.log(error));
   }
@@ -68,7 +55,7 @@ export default class BookListPage extends React.PureComponent {
     return (
       <div>
         <BookListHeader onSearch={this.onSearchHandler} />
-        <BooksList books={books} authorsObj={this.state.authorsObj}/>
+        <BooksList books={books} />
         <Button onClick={this.onLoadMoreHandler}>More books...</Button>
       </div>
     );

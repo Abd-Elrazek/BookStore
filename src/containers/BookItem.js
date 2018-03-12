@@ -7,7 +7,7 @@ export default class BookItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      popup: false,
+      popupBookCover: false,
       popupNoBook: false,
     };
   }
@@ -72,7 +72,7 @@ export default class BookItem extends React.Component {
       e.target.classList.contains('book-img')
     ) {
       this.setState({
-        popup: !this.state.popup,
+        popupBookCover: !this.state.popupBookCover,
       });
     } else if (
       /*если клик произошел на кнопке "закрыть" всплывающего окна "Sorry. Could not embed the book" */
@@ -113,23 +113,6 @@ export default class BookItem extends React.Component {
       return null;
     }
   };
-  /*Показать другие книги автора*/
-  showOtherBooks = (authorsObj, authors) => {
-    if (authors) {
-      let otherBooksArr = [];
-      for (let key in authorsObj) {
-        for (let i = 0; i < authors.length; i++) {
-          if (key === authors[i]) {
-            otherBooksArr.push(authorsObj[key]);
-          }
-        }
-      }
-      console.log(otherBooksArr);
-      return otherBooksArr.map((book, index) => (
-        <div key={`${book}${index}`}>{book}</div>
-      ));
-    }
-  };
 
   render() {
     console.log(this.props.book);
@@ -145,7 +128,9 @@ export default class BookItem extends React.Component {
       publishedDate,
       pageCount,
     } = this.props.book;
-    const authorsObj = this.props.authorsObj;
+
+    let thumbnail = imageLinks.thumbnail + '&zoom=2';
+
     return (
       <div className="book-list-item-wrapper">
         <div className="book-title-wrapper" onClick={this.togglePopup}>
@@ -165,9 +150,9 @@ export default class BookItem extends React.Component {
         <div className="book-item-content">
           <div className="book-img-wrapper" onClick={this.togglePopup}>
             {this.showCoverPicture(imageLinks)}
-            {this.state.popup ? (
+            {this.state.popupBookCover ? (
               <Popup>
-                <img src={imageLinks.thumbnail} alt="" />
+                <img src={thumbnail} alt="" />
               </Popup>
             ) : null}
           </div>
@@ -185,9 +170,7 @@ export default class BookItem extends React.Component {
             </div>
           </div>
         </div>
-        <div className="same-books">
-          {this.showOtherBooks(authorsObj, authors)}
-        </div>
+        <div className="same-books" />
       </div>
     );
   }
