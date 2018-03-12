@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 
@@ -112,18 +113,21 @@ export default class BookItem extends React.Component {
       return null;
     }
   };
-  showOtherBooks = authorsObj => {
-    console.log('dsdsdsd: ' + JSON.stringify(authorsObj));
-    // for (key in authorsObj) {
-    //   console.log('key: '+key);
-			// console.log('book: '+authorsObj[key]);
-    //   // let book = authorsObj[key];
-    //   // return (
-    //   //   <div>
-    //   //     <span> {key}</span>
-    //   //     <span>{book}</span>
-    //   //   </div>
-    //   // );
+  /*Показать другие книги автора*/
+  showOtherBooks = (authorsObj, authors) => {
+    if (authors) {
+      let otherBooksArr = [];
+      for (let key in authorsObj) {
+        for (let i = 0; i < authors.length; i++) {
+          if (key === authors[i]) {
+            otherBooksArr.push(authorsObj[key]);
+          }
+        }
+      }
+      console.log(otherBooksArr);
+      return otherBooksArr.map((book, index) => (
+        <div key={`${book}${index}`}>{book}</div>
+      ));
     }
   };
 
@@ -181,8 +185,28 @@ export default class BookItem extends React.Component {
             </div>
           </div>
         </div>
-        <div className="same-books">{this.showOtherBooks(authorsObj)}</div>
+        <div className="same-books">
+          {this.showOtherBooks(authorsObj, authors)}
+        </div>
       </div>
     );
   }
 }
+
+BookItem.propTypes = {
+  authorsObj: PropTypes.object,
+  book: PropTypes.shape({
+    previewLink: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    authors: PropTypes.arrayOf(PropTypes.string),
+    imageLinks: PropTypes.shape({
+      smallThumbnail: PropTypes.string,
+      thumbnail: PropTypes.string,
+    }),
+    description: PropTypes.string,
+    publisher: PropTypes.string,
+    publishedDate: PropTypes.string,
+    pageCount: PropTypes.number,
+  }),
+};
