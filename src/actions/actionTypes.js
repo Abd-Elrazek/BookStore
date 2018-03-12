@@ -3,3 +3,4 @@ export const SET_QUERY = 'SET_QUERY';
 export const SET_QUERYTYPE = 'SET_QUERYTYPE';
 export const SET_STARTINDEX = 'SET_STARTINDEX';
 export const CLEAR_BOOKS = 'CLEAR_BOOKS';
+export const CLEAR_STARTINDEX = 'CLEAR_STARTINDEX';

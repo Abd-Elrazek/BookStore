@@ -4,6 +4,7 @@ import {
   SET_QUERYTYPE,
   SET_STARTINDEX,
   CLEAR_BOOKS,
+  CLEAR_STARTINDEX,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -31,6 +32,9 @@ export default function books(state = initialState, action) {
 
     case SET_STARTINDEX:
       return { ...state, startIndex: state.startIndex + 10 };
+
+    case CLEAR_STARTINDEX:
+      return { ...state, startIndex: 0 };
 
     default:
       return state;

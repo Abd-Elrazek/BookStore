@@ -5,6 +5,7 @@ import {
   SET_QUERYTYPE,
   SET_STARTINDEX,
   CLEAR_BOOKS,
+  CLEAR_STARTINDEX,
 } from './actionTypes';
 
 export function loadBooks(books) {
@@ -19,9 +20,10 @@ export function booksFetch(query, queryType, startIndex) {
     searchBooks(query, queryType, startIndex)
       .then(response => response.json())
       .then(data => {
-        const books = data.items.map(({ id, volumeInfo }) => {
-          return { id, ...volumeInfo };
-        });
+        const books = data.items.map(({ id, volumeInfo }) => ({
+          id,
+          ...volumeInfo,
+        }));
         dispatch(loadBooks(books));
       });
   };
@@ -52,5 +54,12 @@ export function clearBooks(books) {
   return {
     type: CLEAR_BOOKS,
     books,
+  };
+}
+
+export function clearStartIndex(startIndex) {
+  return {
+    type: CLEAR_STARTINDEX,
+    startIndex,
   };
 }
