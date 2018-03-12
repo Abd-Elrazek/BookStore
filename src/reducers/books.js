@@ -8,6 +8,8 @@ import {
 
 const initialState = {
   books: [],
+  booksByAuthor: [],
+  booksBySubject: [],
   query: '',
   queryType: 'intitle',
   startIndex: 0,
