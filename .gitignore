@@ -2,3 +2,5 @@ node_modules/
 .cache
 .tmp
 **.DS_Store
+.idea
+build
