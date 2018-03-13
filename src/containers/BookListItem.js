@@ -1,12 +1,54 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default class Booklist extends React.Component {
-  render() {
-    const { title } = this.props;
-    return (
-      <div className="book-list-item-wrapper">
-        <h1>{title}</h1>
+const BookListItem = props => {
+  const {
+    id,
+    title,
+    subtitle = '',
+    authors = [],
+    imageLinks: { thumbnail: imageLink } = '',
+  } = props.book;
+  return (
+    <div>
+      <img src={imageLink} alt={title} />
+      <div>
+        <Link to={`/book/${id}`}>
+          <h2>{title}</h2>
+        </Link>
+        <h3>{subtitle}</h3>
+        <div>
+          <span>
+            <strong>ID: </strong>
+          </span>
+          <span>{id}</span>
+        </div>
+        <section>
+          <div>
+            <span>
+              <strong>Authors: </strong>
+            </span>
+            <span>{authors.join(', ')}</span>
+          </div>
+        </section>
       </div>
-    );
-  }
-}
+      <br />
+      <br />
+    </div>
+  );
+};
+
+export default BookListItem;
+
+BookListItem.propTypes = {
+  book: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    authors: PropTypes.arrayOf(PropTypes.string),
+    imageLinks: PropTypes.shape({
+      thumbnail: PropTypes.string,
+    }),
+  }),
+};
