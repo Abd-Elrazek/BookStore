@@ -14,20 +14,26 @@ class BooksListPage extends React.PureComponent {
       startIndex,
       query,
       queryType,
-      fetchBooks,
+      booksFetch,
+      isMoreBooksAvailable,
+      error,
     } = this.props;
     return (
       <div>
         <BookListHeader />
-        <BooksList />
-        <Button
-          onClick={() => {
-            setStartIndex(startIndex);
-            fetchBooks(query, queryType, startIndex);
-          }}
-        >
-          More books...
-        </Button>
+        {error ? error : <BooksList />}
+        {isMoreBooksAvailable ? (
+          <Button
+            onClick={() => {
+              setStartIndex(startIndex);
+              booksFetch(query, queryType, startIndex);
+            }}
+          >
+            More books...
+          </Button>
+        ) : (
+          ''
+        )}
       </div>
     );
   }
@@ -35,7 +41,7 @@ class BooksListPage extends React.PureComponent {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBooks: (query, queryType, startIndex) =>
+    booksFetch: (query, queryType, startIndex) =>
       dispatch(booksFetch(query, queryType, startIndex)),
     setStartIndex: index => dispatch(setStartIndex(index)),
   };
@@ -46,6 +52,8 @@ const mapStateToProps = state => {
     startIndex: state.books.startIndex,
     query: state.books.query,
     queryType: state.books.queryType,
+    error: state.books.error,
+    isMoreBooksAvailable: state.books.isMoreBooksAvailable,
   };
 };
 
@@ -53,8 +61,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(BooksListPage);
 
 BooksListPage.propTypes = {
   setStartIndex: PropTypes.func.isRequired,
-  fetchBooks: PropTypes.func.isRequired,
+  booksFetch: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   queryType: PropTypes.string.isRequired,
   startIndex: PropTypes.number.isRequired,
+  isMoreBooksAvailable: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
 };

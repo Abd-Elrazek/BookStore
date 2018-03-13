@@ -18,7 +18,7 @@ class BookListHeader extends React.PureComponent {
     const {
       query,
       setQuery,
-      fetchBooks,
+      booksFetch,
       clearBooks,
       queryType,
       clearStartIndex,
@@ -31,7 +31,7 @@ class BookListHeader extends React.PureComponent {
           onClick={() => {
             clearBooks();
             clearStartIndex();
-            fetchBooks(query, queryType);
+            booksFetch(query, queryType);
           }}
         >
           Найти
@@ -50,13 +50,12 @@ const mapStateToProps = state => {
   return {
     query: state.books.query,
     queryType: state.books.queryType,
-    // startIndex: state.books.startIndex,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBooks: (query, queryType, startIndex = 0) =>
+    booksFetch: (query, queryType, startIndex = 0) =>
       dispatch(booksFetch(query, queryType, startIndex)),
     setQuery: query => dispatch(setQuery(query)),
     setQueryType: queryType => dispatch(setQueryType(queryType)),
@@ -68,7 +67,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
 
 BookListHeader.propTypes = {
-  fetchBooks: PropTypes.func.isRequired,
+  booksFetch: PropTypes.func.isRequired,
   setQuery: PropTypes.func.isRequired,
   setQueryType: PropTypes.func.isRequired,
   clearBooks: PropTypes.func.isRequired,

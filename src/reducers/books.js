@@ -1,10 +1,12 @@
 import {
-  LOAD_BOOKS,
+  LOAD_BOOKS_SUCCESS,
   SET_QUERY,
   SET_QUERYTYPE,
   SET_STARTINDEX,
   CLEAR_BOOKS,
   CLEAR_STARTINDEX,
+  IS_MOREBOOKS_AVAILABLE,
+  LOAD_BOOKS_FAIL,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -14,11 +16,13 @@ const initialState = {
   query: '',
   queryType: 'intitle',
   startIndex: 0,
+  isMoreBooksAvailable: false,
+  error: '',
 };
 
 export default function books(state = initialState, action) {
   switch (action.type) {
-    case LOAD_BOOKS:
+    case LOAD_BOOKS_SUCCESS:
       return { ...state, books: [...state.books, ...action.books] };
 
     case CLEAR_BOOKS:
@@ -35,6 +39,12 @@ export default function books(state = initialState, action) {
 
     case CLEAR_STARTINDEX:
       return { ...state, startIndex: 0 };
+
+    case IS_MOREBOOKS_AVAILABLE:
+      return { ...state, isMoreBooksAvailable: action.payload };
+
+    case LOAD_BOOKS_FAIL:
+      return { ...state, error: action.error };
 
     default:
       return state;
