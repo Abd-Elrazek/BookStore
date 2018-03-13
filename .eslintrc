@@ -1,12 +1,7 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "airbnb-base",
-    "eslint:recommended",
-    "prettier",
-    "plugin:react/recommended"
-  ],
-  "plugins": ["prettier", "react"],
+  "extends": ["airbnb-base", "eslint:recommended", "plugin:react/recommended", "prettier"],
+  "plugins": ["prettier"],
   "env": {
     "browser": true,
     "node": true,
@@ -17,11 +12,11 @@
     "sourceType": "module"
   },
   "rules": {
-    "react/prop-types": 1,
     "prettier/prettier": [
       "error",
       {
-        "singleQuote": true
+        "singleQuote": true, 
+        "trailingComma": "all"
       }
     ]
   }
