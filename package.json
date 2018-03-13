@@ -20,7 +20,7 @@
     "clean:build": "rimraf ./build",
     "build:parcel": "parcel build src/index.html --out-dir build --no-cache"
   },
-  "devDependencies": {  
+  "devDependencies": {
     "autoprefixer": "^7.2.5",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.1",
@@ -48,6 +48,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   }
 }
