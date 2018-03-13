@@ -71,7 +71,7 @@ export default class BookCardPage extends React.PureComponent {
   };
 
   togglePopup = e => {
-  	console.log(this.state.book);
+    console.log(this.state.book);
     e.preventDefault();
     if (
       /*если клик произошел на обложке книги или на кнопке "закрыть" обложки книги */
@@ -121,7 +121,6 @@ export default class BookCardPage extends React.PureComponent {
       return null;
     }
   };
-
 
   render() {
     const { book } = this.state;
