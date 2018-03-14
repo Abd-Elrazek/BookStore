@@ -5,7 +5,7 @@ import { searchBookById } from '../utils/fetchApi';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 
-export class BookCardPage extends React.PureComponent {
+class BookCardPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -201,6 +201,7 @@ BookCardPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      books: PropTypes.object,
     }),
   }).isRequired,
 };
