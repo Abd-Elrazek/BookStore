@@ -5,9 +5,7 @@ import {
   IS_MOREBOOKS_AVAILABLE,
   SET_QUERY,
   SET_QUERYTYPE,
-  SET_STARTINDEX,
   CLEAR_BOOKS,
-  CLEAR_STARTINDEX,
 } from './actionTypes';
 
 export function loadBooksSuccess(books) {
@@ -49,7 +47,7 @@ export function booksFetch(query, queryType, startIndex) {
             ...volumeInfo,
           }));
           dispatch(isMoreBooksAvailable(true));
-          dispatch(loadBooksSuccess(books));
+          dispatch(loadBooksSuccess(books, startIndex + books.length));
         }
       })
       .catch(error => dispatch(loadBooksFail(error.message)));
@@ -70,23 +68,9 @@ export function setQueryType(queryType) {
   };
 }
 
-export function setStartIndex(startIndex) {
-  return {
-    type: SET_STARTINDEX,
-    startIndex,
-  };
-}
-
 export function clearBooks(books) {
   return {
     type: CLEAR_BOOKS,
     books,
-  };
-}
-
-export function clearStartIndex(startIndex) {
-  return {
-    type: CLEAR_STARTINDEX,
-    startIndex,
   };
 }

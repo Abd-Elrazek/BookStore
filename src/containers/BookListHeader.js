@@ -4,13 +4,7 @@ import { connect } from 'react-redux';
 import TextBox from '../components/TextBox';
 import SelectBox from '../components/SelectBox';
 import Button from '../components/Button';
-import {
-  booksFetch,
-  setQuery,
-  setQueryType,
-  clearBooks,
-  clearStartIndex,
-} from '../actions';
+import { booksFetch, setQuery, setQueryType, clearBooks } from '../actions';
 import queryParams from '../constants/queryParams';
 
 class BookListHeader extends React.PureComponent {
@@ -21,7 +15,6 @@ class BookListHeader extends React.PureComponent {
       booksFetch,
       clearBooks,
       queryType,
-      clearStartIndex,
       setQueryType,
     } = this.props;
     return (
@@ -30,8 +23,7 @@ class BookListHeader extends React.PureComponent {
         <Button
           onClick={() => {
             clearBooks();
-            clearStartIndex();
-            booksFetch(query, queryType);
+            booksFetch(query, queryType, 0);
           }}
         >
           Найти
@@ -60,7 +52,6 @@ const mapDispatchToProps = dispatch => {
     setQuery: query => dispatch(setQuery(query)),
     setQueryType: queryType => dispatch(setQueryType(queryType)),
     clearBooks: () => dispatch(clearBooks()),
-    clearStartIndex: () => dispatch(clearStartIndex()),
   };
 };
 
@@ -71,7 +62,6 @@ BookListHeader.propTypes = {
   setQuery: PropTypes.func.isRequired,
   setQueryType: PropTypes.func.isRequired,
   clearBooks: PropTypes.func.isRequired,
-  clearStartIndex: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   queryType: PropTypes.string.isRequired,
 };
