@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextBox from '../components/TextBox';
 import SelectBox from '../components/SelectBox';
-import Button from '../components/Button';
 import { booksFetch, setQuery, setQueryType, clearBooks } from '../actions';
 import queryParams from '../constants/queryParams';
 
@@ -18,22 +17,21 @@ class BookListHeader extends React.PureComponent {
       setQueryType,
     } = this.props;
     return (
-      <div>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          clearBooks();
+          booksFetch(query, queryType, 0);
+        }}
+      >
         <TextBox value={query} onChange={query => setQuery(query)} />
-        <Button
-          onClick={() => {
-            clearBooks();
-            booksFetch(query, queryType, 0);
-          }}
-        >
-          Найти
-        </Button>
+        <button>Найти</button>
         <SelectBox
           value={queryType}
           onChange={queryType => setQueryType(queryType)}
           options={queryParams}
         />
-      </div>
+      </form>
     );
   }
 }

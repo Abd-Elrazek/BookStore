@@ -17,11 +17,13 @@
     "sourceType": "module"
   },
   "rules": {
-    "react/prop-types": 1,
+    "no-console": "off",
+    "react/prop-types": "warn",
     "prettier/prettier": [
       "error",
       {
-        "singleQuote": true
+        "singleQuote": true,
+        "trailingComma": "all"
       }
     ]
   }
