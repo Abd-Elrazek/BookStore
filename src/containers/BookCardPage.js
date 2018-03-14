@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { searchBookById } from '../utils/fetchApi';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 
-export default class BookCardPage extends React.PureComponent {
+export class BookCardPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,12 +14,17 @@ export default class BookCardPage extends React.PureComponent {
       popupNoBook: false,
     };
 
-    searchBookById(props.match.params.id)
-      .then(response => response.json())
-      .then(({ id, volumeInfo }) => {
-        this.setState({ book: { id, ...volumeInfo } });
-      });
+    const { books } = this.props;
+    /*Если заходим по ссылке напрямую, а не из поиска. Store - пустой, поэтому делаем новый запрос в апи */
+    if (!books || books.length === 0) {
+      searchBookById(props.match.params.id)
+        .then(response => response.json())
+        .then(({ id, volumeInfo }) => {
+          this.setState({ book: { id, ...volumeInfo } });
+        });
+    }
   }
+
   convertPublishedDate = date => {
     if (date) {
       let convertedDate = new Date(date);
@@ -123,7 +129,18 @@ export default class BookCardPage extends React.PureComponent {
   };
 
   render() {
-    const { book } = this.state;
+    /*если пришли на страницу из поиска, берем книгу из store */
+    const { books } = this.props;
+    let book;
+    if (books.length > 0) {
+      const filteredBook = books.filter(
+        item => item.id === this.props.match.params.id,
+      );
+      book = filteredBook[0];
+    } else {
+      book = this.state.book;
+    }
+
     if (!book) {
       return null;
     }
@@ -172,6 +189,13 @@ export default class BookCardPage extends React.PureComponent {
     );
   }
 }
+const mapStateToProps = store => {
+  return {
+    books: store.books.books,
+  };
+};
+
+export default connect(mapStateToProps)(BookCardPage);
 
 BookCardPage.propTypes = {
   match: PropTypes.shape({
