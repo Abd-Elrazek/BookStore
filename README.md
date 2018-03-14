@@ -1,23 +1,36 @@
 # Описание
-  Тренировочный проект Book Store
-  Команда С
+
+Тренировочный проект Book Store
+Команда С
+
 # Установка
 
-    npm install parcel-bundler --save-dev
+Склонируйте или загрузите репозиторий
 
-    npm install react react-dom --save
+```Shell
+$ git clone https://github.com/vzhurbin/jet-homework
+```
 
-    npm install babel-cli babel-preset-react --save-dev
-    
-    npm install parcel-bundler --save-dev
-    
-    npm install react react-dom --save
-    
-    npm install babel-cli babel-preset-react --save-dev
-    
-    npm install --save-dev babel-plugin-transform-object-rest-spread
-    
-    npm install --save-dev babel-plugin-transform-class-properties
-    
-    npm install eslint eslint-config-airbnb --save-dev
+Установите зависимости командой
 
+```shell
+  yarn install
+```
+
+или
+
+```shell
+  npm install
+```
+
+Запустите `yarn` или `npm` с командой `start` для запуска dev-сервера
+
+```Shell
+yarn start
+```
+
+или
+
+```Shell
+npm run start
+```
