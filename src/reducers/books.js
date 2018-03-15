@@ -5,6 +5,10 @@ import {
   CLEAR_BOOKS,
   IS_MOREBOOKS_AVAILABLE,
   LOAD_BOOKS_FAIL,
+  
+  LOAD_BOOKS_SUCCESS_AUTHOR,
+  CLEAR_BOOKS_AUTHOR,
+
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -22,8 +26,14 @@ export default function books(state = initialState, action) {
     case LOAD_BOOKS_SUCCESS:
       return { ...state, books: [...state.books, ...action.books] };
 
+    case LOAD_BOOKS_SUCCESS_AUTHOR:
+      return { ...state, booksByAuthor: [...state.booksByAuthor, ...action.booksByAuthor] };
+
     case CLEAR_BOOKS:
       return { ...state, books: [] };
+
+    case CLEAR_BOOKS_AUTHOR:
+      return { ...state, booksByAuthor: [] };
 
     case SET_QUERY:
       return { ...state, query: action.query };

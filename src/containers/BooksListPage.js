@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import BookListHeader from './BookListHeader';
 import BooksList from './BooksList';
 import Button from '../components/Button';
-import { booksFetch } from '../actions';
+import { booksFetch} from '../actions';
 
 class BooksListPage extends React.PureComponent {
   render() {
@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
   return {
     booksFetch: (query, queryType, startIndex) =>
       dispatch(booksFetch(query, queryType, startIndex)),
-  };
+      };
 };
 
 const mapStateToProps = state => {

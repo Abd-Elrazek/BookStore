@@ -1,17 +1,26 @@
 import { searchBooks } from '../utils/fetchApi';
 import {
   LOAD_BOOKS_SUCCESS,
+  LOAD_BOOKS_SUCCESS_AUTHOR,
   LOAD_BOOKS_FAIL,
   IS_MOREBOOKS_AVAILABLE,
   SET_QUERY,
   SET_QUERYTYPE,
   CLEAR_BOOKS,
+  CLEAR_BOOKS_AUTHOR,
 } from './actionTypes';
 
 export function loadBooksSuccess(books) {
   return {
     type: LOAD_BOOKS_SUCCESS,
     books,
+  };
+}
+
+export function loadBooksSuccessAuthor(booksByAuthor) {
+  return {
+    type: LOAD_BOOKS_SUCCESS_AUTHOR,
+    booksByAuthor,
   };
 }
 
@@ -54,6 +63,27 @@ export function booksFetch(query, queryType, startIndex) {
   };
 }
 
+export function booksFetchAuthor(query, queryType, startIndex) {
+  return dispatch => {
+    searchBooks(query, queryType, startIndex)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Downloading error...Try again');
+      })
+      .then(data => {
+                const booksByAuthor = data.items.map(({ id, volumeInfo }) => ({
+          id,
+          ...volumeInfo,
+        }));
+        dispatch(loadBooksSuccessAuthor(booksByAuthor, startIndex + booksByAuthor.length));
+        }
+      )
+      .catch(error => dispatch(loadBooksFail(error.message)));
+  };
+}
+
 export function setQuery(query) {
   return {
     type: SET_QUERY,
@@ -74,3 +104,11 @@ export function clearBooks(books) {
     books,
   };
 }
+
+export function clearBooksAuthor(booksByAuthor) {
+  return {
+    type: CLEAR_BOOKS_AUTHOR,
+    booksByAuthor,
+  };
+}
+

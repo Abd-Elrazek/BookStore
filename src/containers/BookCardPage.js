@@ -5,6 +5,9 @@ import { searchBookById } from '../utils/fetchApi';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 
+import { booksFetchAuthor, clearBooksAuthor } from '../actions';
+import Button from '../components/Button';
+
 class BookCardPage extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -14,7 +17,10 @@ class BookCardPage extends React.PureComponent {
       popupNoBook: false,
     };
 
-    const { books } = this.props;
+    const {
+      books,
+      booksByAuthor,
+    } = this.props;
     /*Если заходим по ссылке напрямую, а не из поиска. Store - пустой, поэтому делаем новый запрос в апи */
     if (!books || books.length === 0) {
       searchBookById(props.match.params.id)
@@ -128,9 +134,18 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
+  componentDidMount(){
+    console.log('БЛЯ');
+  }
+
+
   render() {
+    const {
+      booksFetchAuthor,
+      clearBooksAuthor,
+    } = this.props;
     /*если пришли на страницу из поиска, берем книгу из store */
-    const { books } = this.props;
+    const { books, booksByAuthor } = this.props;
     let book;
     if (books.length > 0) {
       const filteredBook = books.filter(
@@ -144,6 +159,8 @@ class BookCardPage extends React.PureComponent {
     if (!book) {
       return null;
     }
+
+
     return (
       <div className="book-list-item-wrapper">
         <div className="book-title-wrapper" onClick={this.togglePopup}>
@@ -182,9 +199,16 @@ class BookCardPage extends React.PureComponent {
             <div className="book-description">
               {this.showDescription(book.description)}
             </div>
+
           </div>
         </div>
-        <div className="same-books" />
+        <div className="same-books">
+          <Button onClick={()=> {
+            clearBooksAuthor;
+            booksFetchAuthor(book.authors, 'inauthor', 0);
+          }}>Test</Button>
+          
+        </div>
       </div>
     );
   }
@@ -192,10 +216,19 @@ class BookCardPage extends React.PureComponent {
 const mapStateToProps = store => {
   return {
     books: store.books.books,
+    booksByAuthor: store.books.booksByAuthor,
   };
 };
 
-export default connect(mapStateToProps)(BookCardPage);
+const mapDispatchToProps = dispatch => {
+  return {
+    booksFetchAuthor: (query, queryType, startIndex = 0) =>
+      dispatch(booksFetchAuthor(query, queryType, startIndex)),
+    clearBooksAuthor: () => dispatch(clearBooksAuthor()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
 
 BookCardPage.propTypes = {
   match: PropTypes.shape({
@@ -204,4 +237,6 @@ BookCardPage.propTypes = {
       books: PropTypes.object,
     }),
   }).isRequired,
+  booksFetchAuthor: PropTypes.func.isRequired,
+  clearBooksAuthor: PropTypes.func.isRequired,
 };
