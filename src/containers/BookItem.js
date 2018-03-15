@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const BookItem = props => {
+  const book = props.book.toJS();
   const {
     id,
     title,
     subtitle = '',
     authors = [],
     imageLinks: { thumbnail: imageLink } = '',
-  } = props.book;
+  } = book;
   return (
     <div>
       <img src={imageLink} alt={title} />

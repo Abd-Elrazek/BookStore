@@ -14,7 +14,8 @@ class BookCardPage extends React.PureComponent {
       popupNoBook: false,
     };
 
-    const { books } = this.props;
+    const books = this.props.books.map(book => book.toJS());
+
     /*Если заходим по ссылке напрямую, а не из поиска. Store - пустой, поэтому делаем новый запрос в апи */
     if (!books || books.length === 0) {
       searchBookById(props.match.params.id)
@@ -130,7 +131,7 @@ class BookCardPage extends React.PureComponent {
 
   render() {
     /*если пришли на страницу из поиска, берем книгу из store */
-    const { books } = this.props;
+    const books = this.props.books.map(book => book.toJS());
     let book;
     if (books.length > 0) {
       const filteredBook = books.filter(
@@ -189,19 +190,19 @@ class BookCardPage extends React.PureComponent {
     );
   }
 }
-const mapStateToProps = store => {
+const mapStateToProps = state => {
   return {
-    books: store.books.books,
+    books: state.books.get('books').toArray(),
   };
 };
 
 export default connect(mapStateToProps)(BookCardPage);
 
-BookCardPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      books: PropTypes.object,
-    }),
-  }).isRequired,
-};
+// BookCardPage.propTypes = {
+//   match: PropTypes.shape({
+//     params: PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       books: PropTypes.object,
+//     }),
+//   }).isRequired,
+// };

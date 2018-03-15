@@ -1,5 +1,4 @@
 import React from 'react';
-// import { List, Map, fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BookListHeader from './BookListHeader';
@@ -9,14 +8,13 @@ import { booksFetch } from '../actions';
 
 class BooksListPage extends React.PureComponent {
   render() {
-    const {
-      query,
-      queryType,
-      booksFetch,
-      isMoreBooksAvailable,
-      error,
-      books,
-    } = this.props;
+    const query = this.props.query;
+    const queryType = this.props.queryType;
+    const booksFetch = this.props.booksFetch;
+    const isMoreBooksAvailable = this.props.isMoreBooksAvailable;
+    const error = this.props.error;
+    const books = this.props.books;
+
     return (
       <div>
         <BookListHeader />
@@ -24,7 +22,7 @@ class BooksListPage extends React.PureComponent {
         {isMoreBooksAvailable && (
           <Button
             onClick={() => {
-              booksFetch(query, queryType, books.length + 10);
+              booksFetch(query, queryType, books.size + 10);
             }}
           >
             More books...
@@ -44,11 +42,11 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    books: state.books.books,
-    query: state.books.query,
-    queryType: state.books.queryType,
-    error: state.books.error,
-    isMoreBooksAvailable: state.books.isMoreBooksAvailable,
+    books: state.books.get('books'),
+    query: state.books.get('query'),
+    queryType: state.books.get('queryType'),
+    error: state.books.get('error'),
+    isMoreBooksAvailable: state.books.get('isMoreBooksAvailable'),
   };
 };
 

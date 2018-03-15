@@ -12,7 +12,7 @@ class BooksList extends React.PureComponent {
     return (
       <div>
         {books.map((book, index) => {
-          return <BookItem key={`${book.id}${index}`} book={book} />;
+          return <BookItem key={`${book.get('id')}${index}`} book={book} />;
         })}
       </div>
     );
@@ -21,7 +21,7 @@ class BooksList extends React.PureComponent {
 
 const mapStateToProps = state => {
   return {
-    books: state.books.books,
+    books: state.books.get('books'),
   };
 };
 

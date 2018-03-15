@@ -38,8 +38,8 @@ class BookListHeader extends React.PureComponent {
 
 const mapStateToProps = state => {
   return {
-    query: state.books.query,
-    queryType: state.books.queryType,
+    query: state.books.get('query'),
+    queryType: state.books.get('queryType'),
   };
 };
 
