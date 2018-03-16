@@ -1,34 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
+import { 
+         loadBookCardSuccess,
+         booksFetchAuthor,
+         clearBooksAuthor,
+       } from '../actions';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
-
-import { booksFetchAuthor, clearBooksAuthor } from '../actions';
+import BooksByBox from '../components/BooksByBox';
 import Button from '../components/Button';
 
 class BookCardPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      book: undefined,
       popupBookCover: false,
       popupNoBook: false,
     };
+  }
+  componentDidMount() {
+    const { loadBookCardSuccess, booksFetchAuthor, clearBooksAuthor } = this.props;
+    searchBookById(this.props.match.params.id)
+      .then(response => response.json())
+      .then(({ id, volumeInfo }) => {
+        const book = { id, ...volumeInfo };
+        loadBookCardSuccess(book);
+        clearBooksAuthor();
+        console.log('cleared');
+        booksFetchAuthor(book.authors, 'inauthor', 0);
+        console.log('fetched');
+      });
 
-    const {
-      books,
-      booksByAuthor,
-    } = this.props;
-    /*Если заходим по ссылке напрямую, а не из поиска. Store - пустой, поэтому делаем новый запрос в апи */
-    if (!books || books.length === 0) {
-      searchBookById(props.match.params.id)
-        .then(response => response.json())
-        .then(({ id, volumeInfo }) => {
-          this.setState({ book: { id, ...volumeInfo } });
-        });
-    }
+    
   }
 
   convertPublishedDate = date => {
@@ -83,7 +89,6 @@ class BookCardPage extends React.PureComponent {
   };
 
   togglePopup = e => {
-    console.log(this.state.book);
     e.preventDefault();
     if (
       /*если клик произошел на обложке книги или на кнопке "закрыть" обложки книги */
@@ -134,94 +139,76 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-  componentDidMount(){
-    console.log('БЛЯ');
-  }
-
-
   render() {
-    const {
-      booksFetchAuthor,
-      clearBooksAuthor,
-    } = this.props;
-    /*если пришли на страницу из поиска, берем книгу из store */
-    const { books, booksByAuthor } = this.props;
+    /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
     let book;
-    if (books.length > 0) {
-      const filteredBook = books.filter(
-        item => item.id === this.props.match.params.id,
-      );
-      book = filteredBook[0];
-    } else {
-      book = this.state.book;
-    }
+    let booksByAuthor = this.props.booksByAuthor;
+    !this.props.book ? (book = this.props.bookById) : (book = this.props.book);
 
-    if (!book) {
+    if (!book || Object.keys(book).length === 0) {
       return null;
-    }
-
-
-    return (
-      <div className="book-list-item-wrapper">
-        <div className="book-title-wrapper" onClick={this.togglePopup}>
-          <h1
-            className="book-title"
-            onClick={() => this.openBook(book.previewLink, book.readingModes)}
-          >
-            {book.title}
-          </h1>
-          <span className="subtitle">{book.subtitle}</span>
-          {this.state.popupNoBook ? (
-            <Popup hidePopup={this.togglePopup}>
-              <span>Sorry. Could not embed the book</span>
-            </Popup>
-          ) : null}
-        </div>
-        <div className="book-item-content">
-          <div className="book-img-wrapper" onClick={this.togglePopup}>
-            {this.showCoverPicture(book.imageLinks)}
-
-            {this.state.popupBookCover ? (
-              <Popup>
-                <img src={book.imageLinks.thumbnail + '&zoom=2'} alt="" />
+    } else {
+      return (
+        <div className="book-list-item-wrapper">
+          <div className="book-title-wrapper" onClick={this.togglePopup}>
+            <h1
+              className="book-title"
+              onClick={() => this.openBook(book.previewLink, book.readingModes)}
+            >
+              {book.title}
+            </h1>
+            <span className="subtitle">{book.subtitle}</span>
+            {this.state.popupNoBook ? (
+              <Popup hidePopup={this.togglePopup}>
+                <span>Sorry. Could not embed the book</span>
               </Popup>
             ) : null}
           </div>
-          <div className="book-descr-wrapper">
-            <div className="authors-box">
-              {this.showAuthors(book.authors) || null}
-            </div>
-            <div className="book-info">
-              {this.showPublisher(book.publisher) || null}
-              <span>{this.convertPublishedDate(book.publishedDate)}</span>
-              {this.showPageCount(book.pageCount) || null}
-            </div>
-            <div className="book-description">
-              {this.showDescription(book.description)}
-            </div>
+          <div className="book-item-content">
+            <div className="book-img-wrapper" onClick={this.togglePopup}>
+              {this.showCoverPicture(book.imageLinks)}
 
+              {this.state.popupBookCover ? (
+                <Popup>
+                  <img src={book.imageLinks.thumbnail + '&zoom=2'} alt="" />
+                </Popup>
+              ) : null}
+            </div>
+            <div className="book-descr-wrapper">
+              <div className="authors-box">
+                {this.showAuthors(book.authors) || null}
+              </div>
+              <div className="book-info">
+                {this.showPublisher(book.publisher) || null}
+                <span>{this.convertPublishedDate(book.publishedDate)}</span>
+                {this.showPageCount(book.pageCount) || null}
+              </div>
+              <div className="book-description">
+                {this.showDescription(book.description)}
+              </div>
+              <div>
+                <BooksByBox booksByAuthor = {booksByAuthor} />
+              </div>
+            </div>
           </div>
+          <div className="same-books"/>  
         </div>
-        <div className="same-books">
-          <Button onClick={()=> {
-            clearBooksAuthor;
-            booksFetchAuthor(book.authors, 'inauthor', 0);
-          }}>Test</Button>
-          
-        </div>
-      </div>
-    );
+      );
+    }
   }
 }
-const mapStateToProps = store => {
+const mapStateToProps = (store, props) => {
+  console.log('State to props');
   return {
-    books: store.books.books,
-    booksByAuthor: store.books.booksByAuthor,
+    book: selectors.getBook(store),
+    bookById: selectors.getBookById(store, props.match.params.id),
+    booksByAuthor: selectors.getBooksByAuthor(store)
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    loadBookCardSuccess: book => dispatch(loadBookCardSuccess(book)),
     booksFetchAuthor: (query, queryType, startIndex = 0) =>
       dispatch(booksFetchAuthor(query, queryType, startIndex)),
     clearBooksAuthor: () => dispatch(clearBooksAuthor()),
@@ -237,6 +224,5 @@ BookCardPage.propTypes = {
       books: PropTypes.object,
     }),
   }).isRequired,
-  booksFetchAuthor: PropTypes.func.isRequired,
-  clearBooksAuthor: PropTypes.func.isRequired,
+  loadBookCardSuccess: PropTypes.func.isRequired,
 };

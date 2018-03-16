@@ -13,7 +13,9 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
-          <Link to="/">Поиск книг</Link>
+          <Link to="/" className="logo">
+            <img src="https://i.imgur.com/xShC9wD.gif" alt="" />
+          </Link>
           <Route exact path="/" component={BooksListPage} />
           <Route path="/book/:id" component={BookCardPage} />
         </div>

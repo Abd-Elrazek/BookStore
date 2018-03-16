@@ -10,7 +10,7 @@ class BooksList extends React.PureComponent {
       return <div>not loaded</div>;
     }
     return (
-      <div>
+      <div className="book-list-wrapper">
         {books.map((book, index) => {
           return <BookItem key={`${book.id}${index}`} book={book} />;
         })}
