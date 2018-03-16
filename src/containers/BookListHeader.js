@@ -36,22 +36,18 @@ class BookListHeader extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    query: state.books.get('query'),
-    queryType: state.books.get('queryType'),
-  };
-};
+const mapStateToProps = ({ books }) => ({
+  query: books.get('query'),
+  queryType: books.get('queryType'),
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    booksFetch: (query, queryType, startIndex = 0) =>
-      dispatch(booksFetch(query, queryType, startIndex)),
-    setQuery: query => dispatch(setQuery(query)),
-    setQueryType: queryType => dispatch(setQueryType(queryType)),
-    clearBooks: () => dispatch(clearBooks()),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  booksFetch: (query, queryType, startIndex = 0) =>
+    dispatch(booksFetch(query, queryType, startIndex)),
+  setQuery: query => dispatch(setQuery(query)),
+  setQueryType: queryType => dispatch(setQueryType(queryType)),
+  clearBooks: () => dispatch(clearBooks()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
 

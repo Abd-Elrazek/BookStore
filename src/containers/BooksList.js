@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import BookItem from './BookItem';
 
 class BooksList extends React.PureComponent {
   render() {
     const { books } = this.props;
-    if (!books) {
-      return <div>not loaded</div>;
-    }
-    return (
+    return !books ? (
+      <div>Not loaded</div>
+    ) : (
       <div>
         {books.map((book, index) => {
           return <BookItem key={`${book.get('id')}${index}`} book={book} />;
@@ -19,14 +19,20 @@ class BooksList extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    books: state.books.get('books'),
-  };
-};
+const mapStateToProps = ({ books }) => ({ books: books.get('books') });
 
 export default connect(mapStateToProps)(BooksList);
 
-// BooksList.propTypes = {
-//   books: PropTypes.arrayOf(PropTypes.object),
-// };
+BooksList.propTypes = {
+  books: ImmutablePropTypes.listOf(
+    ImmutablePropTypes.mapContains({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      subtitle: PropTypes.string,
+      authors: ImmutablePropTypes.listOf(PropTypes.string),
+      imageLinks: ImmutablePropTypes.mapContains({
+        thumbnail: PropTypes.string,
+      }),
+    }),
+  ),
+};

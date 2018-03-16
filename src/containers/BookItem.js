@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const BookItem = props => {
   const { book } = props;
@@ -43,14 +44,14 @@ const BookItem = props => {
 
 export default BookItem;
 
-// BookItem.propTypes = {
-//   book: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     title: PropTypes.string.isRequired,
-//     subtitle: PropTypes.string,
-//     authors: PropTypes.arrayOf(PropTypes.string),
-//     imageLinks: PropTypes.shape({
-//       thumbnail: PropTypes.string,
-//     }),
-//   }),
-// };
+BookItem.propTypes = {
+  book: ImmutablePropTypes.mapContains({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    authors: ImmutablePropTypes.listOf(PropTypes.string),
+    imageLinks: ImmutablePropTypes.mapContains({
+      thumbnail: PropTypes.string,
+    }),
+  }).isRequired,
+};

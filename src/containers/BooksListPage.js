@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import BookListHeader from './BookListHeader';
 import BooksList from './BooksList';
 import Button from '../components/Button';
@@ -8,23 +9,21 @@ import { booksFetch } from '../actions';
 
 class BooksListPage extends React.PureComponent {
   render() {
-    const query = this.props.query;
-    const queryType = this.props.queryType;
-    const booksFetch = this.props.booksFetch;
-    const isMoreBooksAvailable = this.props.isMoreBooksAvailable;
-    const error = this.props.error;
-    const books = this.props.books;
+    const {
+      query,
+      queryType,
+      booksFetch,
+      isMoreBooksAvailable,
+      error,
+      books,
+    } = this.props;
 
     return (
       <div>
         <BookListHeader />
-        {error ? error : <BooksList />}
+        {error || <BooksList />}
         {isMoreBooksAvailable && (
-          <Button
-            onClick={() => {
-              booksFetch(query, queryType, books.size + 10);
-            }}
-          >
+          <Button onClick={() => booksFetch(query, queryType, books.size + 10)}>
             More books...
           </Button>
         )}
@@ -33,22 +32,18 @@ class BooksListPage extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    booksFetch: (query, queryType, startIndex) =>
-      dispatch(booksFetch(query, queryType, startIndex)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  booksFetch: (query, queryType, startIndex) =>
+    dispatch(booksFetch(query, queryType, startIndex)),
+});
 
-const mapStateToProps = state => {
-  return {
-    books: state.books.get('books'),
-    query: state.books.get('query'),
-    queryType: state.books.get('queryType'),
-    error: state.books.get('error'),
-    isMoreBooksAvailable: state.books.get('isMoreBooksAvailable'),
-  };
-};
+const mapStateToProps = ({ books }) => ({
+  books: books.get('books'),
+  query: books.get('query'),
+  queryType: books.get('queryType'),
+  error: books.get('error'),
+  isMoreBooksAvailable: books.get('isMoreBooksAvailable'),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BooksListPage);
 
@@ -58,5 +53,15 @@ BooksListPage.propTypes = {
   queryType: PropTypes.string.isRequired,
   isMoreBooksAvailable: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
-  books: PropTypes.arrayOf(PropTypes.object),
+  books: ImmutablePropTypes.listOf(
+    ImmutablePropTypes.mapContains({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      subtitle: PropTypes.string,
+      authors: ImmutablePropTypes.listOf(PropTypes.string),
+      imageLinks: ImmutablePropTypes.mapContains({
+        thumbnail: PropTypes.string,
+      }),
+    }),
+  ),
 };
