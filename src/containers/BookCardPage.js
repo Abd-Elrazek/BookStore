@@ -198,11 +198,11 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(BookCardPage);
 
-// BookCardPage.propTypes = {
-//   match: PropTypes.shape({
-//     params: PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       books: PropTypes.object,
-//     }),
-//   }).isRequired,
-// };
+BookCardPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      books: PropTypes.object,
+    }),
+  }).isRequired,
+};
