@@ -47,7 +47,7 @@ export function booksFetch(query, queryType, startIndex) {
             ...volumeInfo,
           }));
           dispatch(isMoreBooksAvailable(true));
-          dispatch(loadBooksSuccess(books, startIndex + books.length));
+          dispatch(loadBooksSuccess(books));
         }
       })
       .catch(error => dispatch(loadBooksFail(error.message)));
