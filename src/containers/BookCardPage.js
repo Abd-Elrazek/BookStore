@@ -17,10 +17,7 @@ class BookCardPage extends React.PureComponent {
       popupNoBook: false,
     };
 
-    const {
-      books,
-      booksByAuthor,
-    } = this.props;
+    const { books, booksByAuthor } = this.props;
     /*Если заходим по ссылке напрямую, а не из поиска. Store - пустой, поэтому делаем новый запрос в апи */
     if (!books || books.length === 0) {
       searchBookById(props.match.params.id)
@@ -134,16 +131,12 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('БЛЯ');
   }
 
-
   render() {
-    const {
-      booksFetchAuthor,
-      clearBooksAuthor,
-    } = this.props;
+    const { booksFetchAuthor, clearBooksAuthor } = this.props;
     /*если пришли на страницу из поиска, берем книгу из store */
     const { books, booksByAuthor } = this.props;
     let book;
@@ -159,7 +152,6 @@ class BookCardPage extends React.PureComponent {
     if (!book) {
       return null;
     }
-
 
     return (
       <div className="book-list-item-wrapper">
@@ -199,15 +191,17 @@ class BookCardPage extends React.PureComponent {
             <div className="book-description">
               {this.showDescription(book.description)}
             </div>
-
           </div>
         </div>
         <div className="same-books">
-          <Button onClick={()=> {
-            clearBooksAuthor;
-            booksFetchAuthor(book.authors, 'inauthor', 0);
-          }}>Test</Button>
-          
+          <Button
+            onClick={() => {
+              clearBooksAuthor;
+              booksFetchAuthor(book.authors, 'inauthor', 0);
+            }}
+          >
+            Test
+          </Button>
         </div>
       </div>
     );
