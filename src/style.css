@@ -9,6 +9,18 @@
  ul {
      list-style-type: none;
  }
+ .logo {
+     display: block;
+     width: 267px;
+     margin: 0 auto;
+ }
+
+ .book-list-item-wrapper {
+     margin: 0 auto;
+     width:800px;
+ }
+
+
  .book-list-item-wrapper .book-title {
      font-size: 22px;
      cursor: pointer;
@@ -30,6 +42,18 @@
  .book-item-content {
      overflow: hidden;
      margin-top:30px;
+ }
+ .booklist_item__wrapper {
+     overflow: hidden;
+     margin-bottom:30px;
+ }
+ .booklist_item__descr {
+     margin-left:150px;
+ }
+ .booklist_item_addition_info {
+     color: #6a6a6a;
+     line-height: 22px;
+     margin-top: 16px;
  }
 
  .authors-box, .book-info {
@@ -70,10 +94,12 @@
  .subtitle {
      font-size: 14px;
      color: #777777;
+     font-weight: bold;
+     margin-top: 10px;
  }
  /*форма поиска*/
  .search-form {
-     width: 800px;
+     max-width: 584px;
      margin: 0 auto;
      text-align: center;
  }
@@ -117,6 +143,21 @@
      cursor: pointer;
      margin: 11px 4px;
      padding: 0 8px;
+     font-weight: bold;
+     color: #757575;
  }
+ .title-link {
+     text-decoration: none;
+     color: #1a0dab;
+ }
+ .title-link:visited {
+     color: #609;
+ }
+ .book-list-wrapper {
+     margin-left:150px;
+     margin-top: 50px;
+ }
+
+
 
 

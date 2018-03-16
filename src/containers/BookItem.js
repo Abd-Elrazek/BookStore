@@ -11,20 +11,18 @@ const BookItem = props => {
     imageLinks: { thumbnail: imageLink } = '',
   } = props.book;
   return (
-    <div>
-      <img src={imageLink} alt={title} />
-      <div>
-        <Link to={`/book/${id}`}>
+    <div className="booklist_item__wrapper">
+      <img className="book-img" src={imageLink} alt={title} />
+      <div className="booklist_item__descr">
+        <Link to={`/book/${id}`} className="title-link">
           <h2>{title}</h2>
         </Link>
-        <h3>{subtitle}</h3>
-        <div>
+        <h3 className="subtitle">{subtitle}</h3>
+        <section className="booklist_item_addition_info">
           <span>
             <strong>ID: </strong>
           </span>
           <span>{id}</span>
-        </div>
-        <section>
           <div>
             <span>
               <strong>Authors: </strong>
