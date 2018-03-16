@@ -71,5 +71,52 @@
      font-size: 14px;
      color: #777777;
  }
+ /*форма поиска*/
+ .search-form {
+     width: 800px;
+     margin: 0 auto;
+     text-align: center;
+ }
+ .search_text_input {
+     height:34px;
+     width: 100%;
+     padding: 5px 9px 0;
+     border:1px solid #eaeaea;
+     outline:none;
+     margin-bottom: 18px;
+ }
+ .search_text_input:hover{
+     border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;
+     box-shadow: inset 1px 2px 8px rgba(0, 0, 0, 0.02);
+ }
+ .search_text_input:focus{
+     border-color:#4d90fe;
+     outline: none;
+     box-shadow: 0px 0px 5px #61C5FA;
+ }
+ .search_text_input:focus:hover{
+     outline: none;
+     box-shadow: 0px 0px 5px #61C5FA;
+     border:1px solid #5AB0DB;
+ }
+ .search_find_btn {
+     background: #f2f2f2;
+     color: #757575;
+     height: 36px;
+     line-height: 27px;
+     padding: 0 16px;
+     border: 1px solid #f2f2f2;
+     font-weight: bold;
+     margin: 11px 4px;
+     cursor: pointer;
+ }
+ .search_select {
+     height: 36px;
+     background: #f2f2f2;
+     border: 1px solid #f2f2f2;
+     cursor: pointer;
+     margin: 11px 4px;
+     padding: 0 8px;
+ }
 
 

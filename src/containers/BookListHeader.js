@@ -17,7 +17,7 @@ class BookListHeader extends React.PureComponent {
       setQueryType,
     } = this.props;
     return (
-      <form
+      <form className='search-form'
         onSubmit={e => {
           e.preventDefault();
           clearBooks();
@@ -25,7 +25,7 @@ class BookListHeader extends React.PureComponent {
         }}
       >
         <TextBox value={query} onChange={query => setQuery(query)} />
-        <button>Найти</button>
+        <button>Поиск в Bookle</button>
         <SelectBox
           value={queryType}
           onChange={queryType => setQueryType(queryType)}
