@@ -1,0 +1,1 @@
+export const getBookById = (state) => getMovieCard(state).get('movie');

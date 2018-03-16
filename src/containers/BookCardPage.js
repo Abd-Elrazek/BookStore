@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { searchBookById } from '../utils/fetchApi';
+import { loadBookCardSuccess } from '../actions';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 
@@ -9,20 +10,30 @@ class BookCardPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      book: undefined,
+      // book: undefined,
       popupBookCover: false,
       popupNoBook: false,
     };
 
-    const { books } = this.props;
+    // const { books } = this.props;
     /*Если заходим по ссылке напрямую, а не из поиска. Store - пустой, поэтому делаем новый запрос в апи */
-    if (!books || books.length === 0) {
-      searchBookById(props.match.params.id)
-        .then(response => response.json())
-        .then(({ id, volumeInfo }) => {
-          this.setState({ book: { id, ...volumeInfo } });
-        });
-    }
+    // if (!books || books.length === 0) {
+    //   searchBookById(props.match.params.id)
+    //     .then(response => response.json())
+    //     .then(({ id, volumeInfo }) => {
+    //       this.setState({ book: { id, ...volumeInfo } });
+    //     });
+    // }
+  }
+  componentDidMount() {
+    const { loadBookCardSuccess } = this.props;
+    searchBookById(this.props.match.params.id)
+      .then(response => response.json())
+      .then(({ id, volumeInfo }) => {
+        const book = { id, ...volumeInfo };
+        console.log(book);
+        loadBookCardSuccess(book);
+      });
   }
 
   convertPublishedDate = date => {
@@ -128,21 +139,23 @@ class BookCardPage extends React.PureComponent {
   };
 
   render() {
+    console.log(this.props.book);
     /*если пришли на страницу из поиска, берем книгу из store */
-    const { books } = this.props;
-    let book;
-    if (books.length > 0) {
-      const filteredBook = books.filter(
-        item => item.id === this.props.match.params.id,
-      );
-      book = filteredBook[0];
-    } else {
-      book = this.state.book;
-    }
+    const { book } = this.props;
 
-    if (!book) {
-      return null;
-    }
+    // let book;
+    // if (books.length > 0) {
+    //   const filteredBook = books.filter(
+    //     item => item.id === this.props.match.params.id,
+    //   );
+    //   book = filteredBook[0];
+    // } else {
+    //   book = this.state.book;
+    // }
+    //
+    // if (!book) {
+    //   return null;
+    // }
     return (
       <div className="book-list-item-wrapper">
         <div className="book-title-wrapper" onClick={this.togglePopup}>
@@ -190,11 +203,18 @@ class BookCardPage extends React.PureComponent {
 }
 const mapStateToProps = store => {
   return {
-    books: store.books.books,
+    book: store.books.book,
   };
 };
 
-export default connect(mapStateToProps)(BookCardPage);
+const mapDispatchToProps = dispatch => {
+  return {
+    // getMovieCardRequest: () => dispatch(actions.getMovieCardRequest()),
+    loadBookCardSuccess: book => dispatch(loadBookCardSuccess(book)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
 
 BookCardPage.propTypes = {
   match: PropTypes.shape({
@@ -203,4 +223,5 @@ BookCardPage.propTypes = {
       books: PropTypes.object,
     }),
   }).isRequired,
+  loadBookCardSuccess: PropTypes.func.isRequired,
 };
