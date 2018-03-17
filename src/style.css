@@ -42,6 +42,8 @@
  .book-item-content {
      overflow: hidden;
      margin-top:30px;
+     padding-bottom: 20px;
+     border-bottom: 1px solid #ccc;
  }
  .booklist_item__wrapper {
      overflow: hidden;
@@ -158,6 +160,29 @@
      margin-top: 50px;
  }
 
+ .other-books-wrapper {
+    margin-top: 20px;
+ }
+.other-books-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: #757575;
+}
+
+/*другие книги автора*/
+ .cardPage-book-list-wrapper .book-img {
+     width: 80px;
+ }
+ .cardPage-book-list-wrapper .booklist_item__descr {
+     margin-left:120px;
+ }
+ .cardPage-book-list-wrapper h2 {
+     font-size: 14px;
+ }
+
+ .cardPage-book-list-wrapper .booklist_item_addition_info,  .cardPage-book-list-wrapper .subtitle {
+     font-size: 12px;
+ }
 
 
 
