@@ -31,9 +31,7 @@ export default function books(state = initialState, action) {
 
     case LOAD_BOOKS_SUCCESS_AUTHOR:
       return {
-        ...state,
-        booksByAuthor: [...state.booksByAuthor, ...action.booksByAuthor],
-      };
+        ...state, booksByAuthor: action.booksByAuthor };
 
     case CLEAR_BOOKS:
       return { ...state, books: [] };

@@ -69,7 +69,7 @@ export function booksFetch(query, queryType, startIndex) {
   };
 }
 
-export function booksFetchAuthor(query, queryType, startIndex) {
+export function booksFetchAuthor(query, queryType = 'inauthor', startIndex = '0') {
   return dispatch => {
     searchBooks(query, queryType, startIndex)
       .then(response => {
@@ -86,7 +86,6 @@ export function booksFetchAuthor(query, queryType, startIndex) {
         dispatch(
           loadBooksSuccessAuthor(
             booksByAuthor,
-            startIndex + booksByAuthor.length,
           ),
         );
       })

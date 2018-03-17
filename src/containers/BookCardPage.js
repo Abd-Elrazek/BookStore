@@ -22,19 +22,16 @@ class BookCardPage extends React.PureComponent {
     };
   }
   componentDidMount() {
-    const { loadBookCardSuccess, booksFetchAuthor, clearBooksAuthor } = this.props;
+    const { loadBookCardSuccess, booksFetchAuthor} = this.props;
+    console.log(this.props.match.params.id);
     searchBookById(this.props.match.params.id)
       .then(response => response.json())
       .then(({ id, volumeInfo }) => {
         const book = { id, ...volumeInfo };
         loadBookCardSuccess(book);
-        clearBooksAuthor();
-        console.log('cleared');
-        booksFetchAuthor(book.authors, 'inauthor', 0);
-        console.log('fetched');
-      });
 
-    
+        booksFetchAuthor(book.authors);
+      });
   }
 
   convertPublishedDate = date => {
@@ -139,12 +136,22 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
+  onClickBooksByAuthorHandler = () => {
+    const { loadBookCardSuccess} = this.props;
+    console.log(this.props.match.params.id);
+    searchBookById(this.props.match.params.id)
+      .then(response => response.json())
+      .then(({ id, volumeInfo }) => {
+        const book = { id, ...volumeInfo };
+        loadBookCardSuccess(book);
+      });
+  };
+
   render() {
     /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
-    let book;
+    let book =this.props.book;
     let booksByAuthor = this.props.booksByAuthor;
-    !this.props.book ? (book = this.props.bookById) : (book = this.props.book);
-
+    
     if (!book || Object.keys(book).length === 0) {
       return null;
     } else {
@@ -187,7 +194,7 @@ class BookCardPage extends React.PureComponent {
                 {this.showDescription(book.description)}
               </div>
               <div>
-                <BooksByBox booksByAuthor = {booksByAuthor} />
+                <BooksByBox booksByAuthor = {booksByAuthor} onClickHandler = {this.onClickBooksByAuthorHandler}/>
               </div>
             </div>
           </div>
