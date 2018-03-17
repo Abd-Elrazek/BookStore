@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
 import {
-         loadBookCardSuccess,
-         booksFetchAuthor,
-         clearBooksAuthor,
-       } from '../actions';
+  loadBookCardSuccess,
+  booksFetchAuthor,
+  clearBooksAuthor,
+} from '../actions';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 import BooksByBox from '../components/BooksByBox';
@@ -151,6 +151,7 @@ class BookCardPage extends React.PureComponent {
     /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
     let book =this.props.book;
     let booksByAuthor = this.props.booksByAuthor;
+    !this.props.book ? (book = this.props.bookById) : (book = this.props.book);
 
     if (!book || Object.keys(book).length === 0) {
       return null;
@@ -193,12 +194,12 @@ class BookCardPage extends React.PureComponent {
               <div className="book-description">
                 {this.showDescription(book.description)}
               </div>
-              <div>
-                <BooksByBox booksByAuthor = {booksByAuthor} onClickHandler = {this.onClickBooksByAuthorHandler}/>
-              </div>
             </div>
           </div>
-          <div className="same-books"/>  
+          <div className="other-books-wrapper">
+            <h2 className="other-books-title">Другие книги автора</h2>
+            <BooksByBox booksByAuthor={booksByAuthor} />
+          </div>
         </div>
       );
     }
@@ -209,7 +210,7 @@ const mapStateToProps = (store, props) => {
   return {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
-    booksByAuthor: selectors.getBooksByAuthor(store)
+    booksByAuthor: selectors.getBooksByAuthor(store),
   };
 };
 
@@ -233,5 +234,5 @@ BookCardPage.propTypes = {
   }).isRequired,
   booksFetchAuthor: PropTypes.func.isRequired,
   clearBooksAuthor: PropTypes.func.isRequired,
-	loadBookCardSuccess: PropTypes.func.isRequired,
+  loadBookCardSuccess: PropTypes.func.isRequired,
 };
