@@ -1,6 +1,7 @@
 import { searchBooks } from '../utils/fetchApi';
 import {
   LOAD_BOOKS_SUCCESS,
+  LOAD_BOOK_CARD_SUCCESS,
   LOAD_BOOKS_SUCCESS_AUTHOR,
   LOAD_BOOKS_FAIL,
   IS_MOREBOOKS_AVAILABLE,
@@ -16,7 +17,12 @@ export function loadBooksSuccess(books) {
     books,
   };
 }
-
+export const loadBookCardSuccess = book => {
+  return {
+    type: LOAD_BOOK_CARD_SUCCESS,
+    book,
+  };
+};
 export function loadBooksSuccessAuthor(booksByAuthor) {
   return {
     type: LOAD_BOOKS_SUCCESS_AUTHOR,
@@ -73,13 +79,17 @@ export function booksFetchAuthor(query, queryType, startIndex) {
         throw new Error('Downloading error...Try again');
       })
       .then(data => {
-                const booksByAuthor = data.items.map(({ id, volumeInfo }) => ({
+        const booksByAuthor = data.items.map(({ id, volumeInfo }) => ({
           id,
           ...volumeInfo,
         }));
-        dispatch(loadBooksSuccessAuthor(booksByAuthor, startIndex + booksByAuthor.length));
-        }
-      )
+        dispatch(
+          loadBooksSuccessAuthor(
+            booksByAuthor,
+            startIndex + booksByAuthor.length,
+          ),
+        );
+      })
       .catch(error => dispatch(loadBooksFail(error.message)));
   };
 }
@@ -111,4 +121,3 @@ export function clearBooksAuthor(booksByAuthor) {
     booksByAuthor,
   };
 }
-
