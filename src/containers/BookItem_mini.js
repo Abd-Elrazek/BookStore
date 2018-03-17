@@ -10,11 +10,15 @@ const BookItem_mini = props => {
     authors = [],
     imageLinks: { thumbnail: imageLink } = '',
   } = props.book;
+
+  const{onClickHandler} = props;
+
+  
   return (
     <div className="booklist_item__wrapper">
       <img className="book-img" src={imageLink} alt={title} />
       <div className="booklist_item__descr">
-        <Link to={`/book/${id}`} className="title-link">
+        <Link to={`/book/${id}`} className="title-link" onClick = {onClickHandler}>
           <h2>{title}</h2>
         </Link>
         <h3 className="subtitle">{subtitle}</h3>

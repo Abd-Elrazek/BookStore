@@ -10,6 +10,8 @@ const BookItem = props => {
     authors = [],
     imageLinks: { thumbnail: imageLink } = '',
   } = props.book;
+  
+
   return (
     <div className="booklist_item__wrapper">
       <img className="book-img" src={imageLink} alt={title} />
