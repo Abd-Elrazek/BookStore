@@ -8,11 +8,13 @@ import {
   LOAD_BOOKS_FAIL,
   LOAD_BOOKS_SUCCESS_AUTHOR,
   CLEAR_BOOKS_AUTHOR,
+  GET_BOOK_CARD_REQUEST,
 } from '../actions/actionTypes';
 
 const initialState = {
   books: [],
   book: {},
+  isLoading: false,
   booksByAuthor: [],
   booksBySubject: [],
   query: '',
@@ -26,8 +28,11 @@ export default function books(state = initialState, action) {
     case LOAD_BOOKS_SUCCESS:
       return { ...state, books: [...state.books, ...action.books] };
 
+    case GET_BOOK_CARD_REQUEST: {
+      return { ...state, isLoading: true };
+    }
     case LOAD_BOOK_CARD_SUCCESS:
-      return { ...state, book: { ...action.book } };
+      return { ...state, book: { ...action.book }, isLoading: false };
 
     case LOAD_BOOKS_SUCCESS_AUTHOR:
       return {

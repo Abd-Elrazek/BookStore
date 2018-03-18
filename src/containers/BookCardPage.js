@@ -5,6 +5,7 @@ import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
 import {
   loadBookCardSuccess,
+  getBookCardRequest,
   booksFetchAuthor,
   clearBooksAuthor,
 } from '../actions';
@@ -22,15 +23,21 @@ class BookCardPage extends React.PureComponent {
     };
   }
   componentDidMount() {
-    const { loadBookCardSuccess, booksFetchAuthor} = this.props;
-    console.log(this.props.match.params.id);
+    const {
+      loadBookCardSuccess,
+      booksFetchAuthor,
+      clearBooksAuthor,
+    } = this.props;
     searchBookById(this.props.match.params.id)
       .then(response => response.json())
       .then(({ id, volumeInfo }) => {
         const book = { id, ...volumeInfo };
         loadBookCardSuccess(book);
-
-        booksFetchAuthor(book.authors);
+        clearBooksAuthor();
+        console.log('cleared');
+        console.log(book.authors);
+        booksFetchAuthor(book.authors, 'inauthor', 0);
+        console.log('fetched');
       });
   }
 
@@ -149,10 +156,15 @@ class BookCardPage extends React.PureComponent {
 
   render() {
     /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
-    let book =this.props.book;
+    let book;
+    const isLoading = this.props.isLoading;
     let booksByAuthor = this.props.booksByAuthor;
+
     !this.props.book ? (book = this.props.bookById) : (book = this.props.book);
 
+    if (isLoading===true) {
+      return <h1>Loading Book...</h1>;
+    }
     if (!book || Object.keys(book).length === 0) {
       return null;
     } else {
@@ -211,6 +223,7 @@ const mapStateToProps = (store, props) => {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
     booksByAuthor: selectors.getBooksByAuthor(store),
+    isLoading: selectors.getIsLoading(store),
   };
 };
 
@@ -220,6 +233,7 @@ const mapDispatchToProps = dispatch => {
     booksFetchAuthor: (query, queryType, startIndex = 0) =>
       dispatch(booksFetchAuthor(query, queryType, startIndex)),
     clearBooksAuthor: () => dispatch(clearBooksAuthor()),
+    getBookCardRequest: () => dispatch(getBookCardRequest()),
   };
 };
 
@@ -235,4 +249,5 @@ BookCardPage.propTypes = {
   booksFetchAuthor: PropTypes.func.isRequired,
   clearBooksAuthor: PropTypes.func.isRequired,
   loadBookCardSuccess: PropTypes.func.isRequired,
+  getBookCardRequest: PropTypes.func.isRequired,
 };
