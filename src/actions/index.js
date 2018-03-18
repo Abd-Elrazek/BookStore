@@ -1,6 +1,7 @@
 import { searchBooks } from '../utils/fetchApi';
 import {
   LOAD_BOOKS_SUCCESS,
+  GET_BOOK_CARD_REQUEST,
   LOAD_BOOK_CARD_SUCCESS,
   LOAD_BOOKS_SUCCESS_AUTHOR,
   LOAD_BOOKS_FAIL,
@@ -17,12 +18,20 @@ export function loadBooksSuccess(books) {
     books,
   };
 }
+
+export const getBookCardRequest = () => {
+  return {
+    type: GET_BOOK_CARD_REQUEST,
+  };
+};
+
 export const loadBookCardSuccess = book => {
   return {
     type: LOAD_BOOK_CARD_SUCCESS,
     book,
   };
 };
+
 export function loadBooksSuccessAuthor(booksByAuthor) {
   return {
     type: LOAD_BOOKS_SUCCESS_AUTHOR,
