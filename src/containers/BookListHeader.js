@@ -2,24 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextBox from '../components/TextBox';
+import Button from '../components/Button';
 import SelectBox from '../components/SelectBox';
 import { booksFetch, setQuery, setQueryType, clearBooks } from '../actions';
 import queryParams from '../constants/queryParams';
 
 class BookListHeader extends React.PureComponent {
-  onSubmitHandler = e => {
-    e.preventDefault();
-    const { query, queryType, startIndex, clearBooks, fetchBooks } = this.props;
-    clearBooks();
-    fetchBooks(query, queryType, startIndex);
-  };
-
   render() {
-    const { query, setQuery, queryType, setQueryType } = this.props;
+    const {
+      query,
+      setQuery,
+      booksFetch,
+      clearBooks,
+      queryType,
+      setQueryType,
+    } = this.props;
     return (
-      <form onSubmit={this.onSubmitHandler}>
+      <form
+        className="search-form"
+        onSubmit={e => {
+          e.preventDefault();
+          clearBooks();
+          booksFetch(query, queryType, 0);
+        }}
+      >
         <TextBox value={query} onChange={query => setQuery(query)} />
-        <button>Найти</button>
+        <button className="search_find_btn">Найти</button>
         <SelectBox
           value={queryType}
           onChange={queryType => setQueryType(queryType)}
@@ -34,13 +42,12 @@ const mapStateToProps = state => {
   return {
     query: state.books.query,
     queryType: state.books.queryType,
-    startIndex: state.books.startIndex,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBooks: (query, queryType, startIndex) =>
+    booksFetch: (query, queryType, startIndex = 0) =>
       dispatch(booksFetch(query, queryType, startIndex)),
     setQuery: query => dispatch(setQuery(query)),
     setQueryType: queryType => dispatch(setQueryType(queryType)),
@@ -51,11 +58,10 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
 
 BookListHeader.propTypes = {
-  fetchBooks: PropTypes.func.isRequired,
+  booksFetch: PropTypes.func.isRequired,
   setQuery: PropTypes.func.isRequired,
   setQueryType: PropTypes.func.isRequired,
   clearBooks: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   queryType: PropTypes.string.isRequired,
-  startIndex: PropTypes.number.isRequired,
 };

@@ -1,5 +1,5 @@
 const api = {
-  key: 'AIzaSyBhs1kVzhyMgedcziSyiezhhhE8Xp5FTQ8',
+  key: 'AIzaSyCM5pZ6H7QvqxPGFRViBvsgEf4gnzYtPrs',
   baseUrl: 'https://www.googleapis.com/books/v1/volumes',
 };
 

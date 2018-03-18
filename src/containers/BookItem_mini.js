@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const BookItem = props => {
+const BookItem_mini = props => {
   const {
     id,
     title,
@@ -10,13 +10,15 @@ const BookItem = props => {
     authors = [],
     imageLinks: { thumbnail: imageLink } = '',
   } = props.book;
-  
 
+  const{onClickHandler} = props;
+
+  
   return (
     <div className="booklist_item__wrapper">
       <img className="book-img" src={imageLink} alt={title} />
       <div className="booklist_item__descr">
-        <Link to={`/book/${id}`} className="title-link">
+        <Link to={`/book/${id}`} className="title-link" onClick = {onClickHandler}>
           <h2>{title}</h2>
         </Link>
         <h3 className="subtitle">{subtitle}</h3>
@@ -39,9 +41,9 @@ const BookItem = props => {
   );
 };
 
-export default BookItem;
+export default BookItem_mini;
 
-BookItem.propTypes = {
+BookItem_mini.propTypes = {
   book: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
