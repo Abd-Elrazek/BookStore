@@ -4,3 +4,4 @@ export const getBookById = (state, id) =>
   getBookCard(state).books.filter(item => item.id === id)[0];
 
 export const getBooksByAuthor = state => state.books.booksByAuthor;
+export const getIsLoading = (state) => getBookCard(state).isLoading;
