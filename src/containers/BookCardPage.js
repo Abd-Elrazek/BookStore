@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
-import { 
-         loadBookCardSuccess,
-         booksFetchAuthor,
-         clearBooksAuthor,
-       } from '../actions';
+import {
+  loadBookCardSuccess,
+  getBookCardRequest,
+  booksFetchAuthor,
+  clearBooksAuthor,
+} from '../actions';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
-import BooksByBox from '../components/BooksByBox';
+import BooksByAuthor from '../components/BooksByAuthor';
 import Button from '../components/Button';
 
 class BookCardPage extends React.PureComponent {
@@ -22,15 +23,18 @@ class BookCardPage extends React.PureComponent {
     };
   }
   componentDidMount() {
-    const { loadBookCardSuccess, booksFetchAuthor} = this.props;
-    console.log(this.props.match.params.id);
+    const {
+      loadBookCardSuccess,
+      booksFetchAuthor,
+      clearBooksAuthor,
+    } = this.props;
+
     searchBookById(this.props.match.params.id)
       .then(response => response.json())
       .then(({ id, volumeInfo }) => {
         const book = { id, ...volumeInfo };
         loadBookCardSuccess(book);
-
-        booksFetchAuthor(book.authors);
+        booksFetchAuthor(book.authors, 'inauthor', 0);
       });
   }
 
@@ -136,22 +140,29 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-  onClickBooksByAuthorHandler = () => {
-    const { loadBookCardSuccess} = this.props;
-    console.log(this.props.match.params.id);
-    searchBookById(this.props.match.params.id)
-      .then(response => response.json())
-      .then(({ id, volumeInfo }) => {
-        const book = { id, ...volumeInfo };
-        loadBookCardSuccess(book);
-      });
-  };
+author_books = (book,booksByAuthor) => {
+        const authors = book.authors;
+        if (authors) {
+          return(<div><h2 className="other-books-title">Другие книги автора</h2>
+                 <BooksByAuthor booksByAuthor={booksByAuthor} /></div>)
+        } else {
+          return(<div><h2 className="other-books-title">Автор не указан.</h2></div>)      
+        } 
+      }
+
 
   render() {
     /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
-    let book =this.props.book;
-    let booksByAuthor = this.props.booksByAuthor;
-    
+    let book = this.props.book;
+
+    const isLoading = this.props.isLoading;
+    const booksByAuthor = this.props.booksByAuthor;
+
+  
+
+    if (isLoading===true) {
+      return <h1>Loading Book...</h1>;
+    }
     if (!book || Object.keys(book).length === 0) {
       return null;
     } else {
@@ -193,23 +204,22 @@ class BookCardPage extends React.PureComponent {
               <div className="book-description">
                 {this.showDescription(book.description)}
               </div>
-              <div>
-                <BooksByBox booksByAuthor = {booksByAuthor} onClickHandler = {this.onClickBooksByAuthorHandler}/>
-              </div>
             </div>
           </div>
-          <div className="same-books"/>  
+          <div className="other-books-wrapper">
+            {this.author_books(book, booksByAuthor)}
+          </div>
         </div>
       );
     }
   }
 }
 const mapStateToProps = (store, props) => {
-  console.log('State to props');
   return {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
-    booksByAuthor: selectors.getBooksByAuthor(store)
+    booksByAuthor: selectors.getBooksByAuthor(store),
+    isLoading: selectors.getIsLoading(store),
   };
 };
 
@@ -219,6 +229,7 @@ const mapDispatchToProps = dispatch => {
     booksFetchAuthor: (query, queryType, startIndex = 0) =>
       dispatch(booksFetchAuthor(query, queryType, startIndex)),
     clearBooksAuthor: () => dispatch(clearBooksAuthor()),
+    getBookCardRequest: () => dispatch(getBookCardRequest()),
   };
 };
 
@@ -231,5 +242,8 @@ BookCardPage.propTypes = {
       books: PropTypes.object,
     }),
   }).isRequired,
+  booksFetchAuthor: PropTypes.func.isRequired,
+  clearBooksAuthor: PropTypes.func.isRequired,
   loadBookCardSuccess: PropTypes.func.isRequired,
+  getBookCardRequest: PropTypes.func.isRequired,
 };
