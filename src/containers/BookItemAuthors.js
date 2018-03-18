@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   loadBooksSuccess,
+  loadBookCardSuccess
 } from '../actions';
 import { connect } from 'react-redux';
 import * as selectors from '../selectors/bookCard';
 
 class BookItemAuthors extends React.Component{
 
-  onClickHandler = (id)=> { 
-    loadBooksSuccess(book);
+  onClickHandler = ()=> { 
+    const {loadBookCardSuccess} = this.props;
+    loadBookCardSuccess(this.props.book);
   };
 
   render(){
@@ -28,10 +30,10 @@ class BookItemAuthors extends React.Component{
 
 
     return (
-      <div className="booklist_item__wrapper">
+      <div className="booklist_item__wrapper" onClick = {this.onClickHandler}>
         <img className="book-img" src={imageLink} alt={title} />
         <div className="booklist_item__descr">
-          <Link to={`/book/${id}`} className="title-link" onClick = {this.onClickHandler}>
+          <Link to={`/book/${id}`} className="title-link" >
             <h2>{title}</h2>
           </Link>
           <h3 className="subtitle">{subtitle}</h3>
@@ -56,14 +58,22 @@ class BookItemAuthors extends React.Component{
 };
 
 
+const mapStateToProps = (store, props) => {
+  return {
 
+
+    booksByAuthor: selectors.getBooksByAuthor(store),
+
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     loadBooksSuccess: book => dispatch(loadBooksSuccess(book)),
+    loadBookCardSuccess: book => dispatch(loadBookCardSuccess(book)),
   };
 };
 
-export default connect(mapDispatchToProps)(BookItemAuthors);
+export default connect(mapStateToProps,mapDispatchToProps)(BookItemAuthors);
 
 BookItemAuthors.propTypes = {
   book: PropTypes.shape({
