@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
 import {
@@ -44,24 +45,6 @@ class BookCardPage extends React.PureComponent {
       return `${convertedDays} ${monthNames[mm]} ${yy}`;
     } else {
       return null;
-    }
-  };
-
-  showAuthors = authors => {
-    if (authors && authors.length > 0) {
-      return authors.map(
-        (author, index) =>
-          index !== authors.length - 1 ? (
-            <a href="#" key={`${index}`}>
-              {author}
-              <span>, </span>
-            </a>
-          ) : (
-            <a href="#" key={`${index}`}>
-              {author}
-            </a>
-          ),
-      );
     }
   };
 
@@ -202,7 +185,10 @@ class BookCardPage extends React.PureComponent {
             </div>
             <div className="book-descr-wrapper">
               <div className="authors-box">
-                {this.showAuthors(book.get('authors')) || null}
+                {(book.get('authors')
+                  ? book.get('authors').toArray()
+                  : []
+                ).join(', ')}
               </div>
               <div className="book-info">
                 {this.showPublisher(book.get('publisher')) || null}
