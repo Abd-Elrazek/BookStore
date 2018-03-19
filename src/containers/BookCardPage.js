@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
 import {
