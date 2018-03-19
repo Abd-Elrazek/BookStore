@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BookItem from './BookItem';
-import * as selectors from '../selectors/bookCard';
-
 
 class BooksList extends React.PureComponent {
   render() {
@@ -39,4 +37,3 @@ BooksList.propTypes = {
     }),
   ),
 };
-

@@ -2,14 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextBox from '../components/TextBox';
-import Button from '../components/Button';
 import SelectBox from '../components/SelectBox';
 import { booksFetch, setQuery, setQueryType, clearBooks } from '../actions';
 import queryParams from '../constants/queryParams';
-import { List, Map, fromJS } from 'immutable';
-import * as selectors from '../selectors/bookCard';
-
-
 
 class BookListHeader extends React.PureComponent {
   render() {

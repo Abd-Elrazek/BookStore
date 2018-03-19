@@ -16,19 +16,16 @@ class BookItemAuthors extends React.Component {
   };
 
   render() {
-
     const { book } = this.props;
     const imageLink = book.get('imageLinks')
       ? book.get('imageLinks').get('thumbnail')
       : '';
 
     return (
-
       <div className="booklist_item__wrapper" onClick={this.onClickHandler}>
         <img className="book-img" src={imageLink} alt={book.get('title')} />
         <div className="booklist_item__descr">
           <Link to={`/book/${book.get('id')}`} className="title-link">
-
             <h2>{book.get('title')}</h2>
           </Link>
           <h3 className="subtitle">{book.get('subtitle')}</h3>
@@ -48,7 +45,6 @@ class BookItemAuthors extends React.Component {
                   : []
                 ).join(', ')}
               </span>
-
             </div>
           </section>
         </div>
@@ -57,11 +53,9 @@ class BookItemAuthors extends React.Component {
       </div>
     );
   }
-
 }
 
 const mapStateToProps = store => {
-
   return {
     booksByAuthor: selectors.getBooksByAuthor(store),
   };
@@ -72,7 +66,4 @@ const mapDispatchToProps = dispatch => {
     loadBookCardSuccess: book => dispatch(loadBookCardSuccess(book)),
   };
 };
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(BookItemAuthors);
-

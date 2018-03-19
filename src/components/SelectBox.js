@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 export default function SelectBox({ value, onChange, options }) {
   return (
-
     <select
       value={value}
       onChange={e => onChange(e.target.value)}

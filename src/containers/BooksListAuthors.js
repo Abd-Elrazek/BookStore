@@ -1,7 +1,6 @@
 import React from 'react';
 import BookItemAuthors from '../containers/BookItemAuthors';
 
-
 export default function BooksListAuthors(props) {
   const books = props.booksByAuthor;
   return (
@@ -10,7 +9,6 @@ export default function BooksListAuthors(props) {
         return (
           <BookItemAuthors key={`${book.get('id')}${index}`} book={book} />
         );
-
       })}
     </div>
   );

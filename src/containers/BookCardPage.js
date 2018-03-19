@@ -174,11 +174,9 @@ class BookCardPage extends React.PureComponent {
           <div className="book-title-wrapper" onClick={this.togglePopup}>
             <h1
               className="book-title"
-
               onClick={() =>
                 this.openBook(book.get('previewLink'), book.get('readingModes'))
               }
-
             >
               {book.get('title')}
             </h1>
@@ -195,12 +193,10 @@ class BookCardPage extends React.PureComponent {
 
               {this.state.popupBookCover ? (
                 <Popup>
-
                   <img
                     src={book.get('imageLinks').get('thumbnail') + '&zoom=2'}
                     alt=""
                   />
-
                 </Popup>
               ) : null}
             </div>
@@ -231,7 +227,6 @@ class BookCardPage extends React.PureComponent {
   }
 }
 const mapStateToProps = (store, props) => {
-
   return {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
@@ -251,7 +246,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
-
 
 BookCardPage.propTypes = {
   match: PropTypes.shape({
