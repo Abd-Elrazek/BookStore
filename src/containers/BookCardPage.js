@@ -48,7 +48,6 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-
   showPageCount = pageCount => {
     if (pageCount) {
       return <span> - Всего страниц: {pageCount}</span>;
