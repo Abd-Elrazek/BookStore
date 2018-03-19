@@ -1,29 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {
-  loadBooksSuccess,
-  loadBookCardSuccess
-} from '../actions';
+
 import { connect } from 'react-redux';
+import { loadBooksSuccess, loadBookCardSuccess } from '../actions';
 import * as selectors from '../selectors/bookCard';
-import { List, Map, fromJS } from 'immutable';
 
-
-
-
-class BookItemAuthors extends React.Component{
-  constructor(props){
+class BookItemAuthors extends React.Component {
+  constructor(props) {
     super(props);
   }
 
-  onClickHandler = ()=> { 
-    const {loadBookCardSuccess} = this.props;
+  onClickHandler = () => {
+    const { loadBookCardSuccess } = this.props;
     loadBookCardSuccess(this.props.book);
-    
   };
 
-  render(){
+  render() {
+
     const { book } = this.props;
     const imageLink = book.get('imageLinks')
       ? book.get('imageLinks').get('thumbnail')
@@ -31,10 +24,11 @@ class BookItemAuthors extends React.Component{
 
     return (
 
-      <div className="booklist_item__wrapper" onClick = {this.onClickHandler}>
+      <div className="booklist_item__wrapper" onClick={this.onClickHandler}>
         <img className="book-img" src={imageLink} alt={book.get('title')} />
         <div className="booklist_item__descr">
-          <Link to={`/book/${book.get('id')}`} className="title-link" >
+          <Link to={`/book/${book.get('id')}`} className="title-link">
+
             <h2>{book.get('title')}</h2>
           </Link>
           <h3 className="subtitle">{book.get('subtitle')}</h3>
@@ -47,7 +41,14 @@ class BookItemAuthors extends React.Component{
               <span>
                 <strong>Authors: </strong>
               </span>
-              <span>{(book.get('authors') ? book.get('authors').toArray() : []).join(', ',)}</span>
+
+              <span>
+                {(book.get('authors')
+                  ? book.get('authors').toArray()
+                  : []
+                ).join(', ')}
+              </span>
+
             </div>
           </section>
         </div>
@@ -56,9 +57,11 @@ class BookItemAuthors extends React.Component{
       </div>
     );
   }
-};
 
-const mapStateToProps = (store, props) => {
+}
+
+const mapStateToProps = store => {
+
   return {
     booksByAuthor: selectors.getBooksByAuthor(store),
   };
@@ -70,5 +73,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(BookItemAuthors);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookItemAuthors);
 

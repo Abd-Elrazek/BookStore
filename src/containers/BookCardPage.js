@@ -12,8 +12,6 @@ import {
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 import BooksListAuthors from './BooksListAuthors';
-import Button from '../components/Button';
-import { List, Map, fromJS, toJS } from 'immutable';
 
 class BookCardPage extends React.PureComponent {
   constructor(props) {
@@ -24,10 +22,8 @@ class BookCardPage extends React.PureComponent {
     };
   }
   componentDidMount() {
-    const {
-      loadBookCardSuccess,
-      booksFetchAuthor,
-    } = this.props;
+    const { loadBookCardSuccess, booksFetchAuthor } = this.props;
+
     searchBookById(this.props.match.params.id)
       .then(response => response.json())
       .then(({ id, volumeInfo }) => {
@@ -115,7 +111,11 @@ class BookCardPage extends React.PureComponent {
       return (
         <div>
           <a href="#" onClick={e => this.togglePopup(e)}>
-            <img src={image.get('smallThumbnail')} alt="" className="book-img" />
+            <img
+              src={image.get('smallThumbnail')}
+              alt=""
+              className="book-img"
+            />
           </a>
         </div>
       );
@@ -139,27 +139,33 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-author_books = (book, booksByAuthor) => {
-        const authors = book.get('authors');
-        if (authors) {
-          return(<div>
-                  <h2 className="other-books-title">Другие книги автора</h2>
-                  <BooksListAuthors booksByAuthor={booksByAuthor} />
-                </div>)
-        } else {
-          return(<div><h2 className="other-books-title">Автор не указан.</h2></div>)      
-        } 
-      }
-
+  author_books = (book, booksByAuthor) => {
+    const authors = book.get('authors');
+    if (authors) {
+      return (
+        <div>
+          <h2 className="other-books-title">Другие книги автора</h2>
+          <BooksListAuthors booksByAuthor={booksByAuthor} />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2 className="other-books-title">Автор не указан.</h2>
+        </div>
+      );
+    }
+  };
 
   render() {
     /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
     const book = this.props.book;
     const isLoading = this.props.isLoading;
     const booksByAuthor = this.props.booksByAuthor;
-    if (isLoading===true) {
+    if (isLoading === true) {
       return <h1>Loading Book...</h1>;
     }
+
     if (!book || Object.keys(book).length === 0) {
       return null;
     } else {
@@ -168,7 +174,11 @@ author_books = (book, booksByAuthor) => {
           <div className="book-title-wrapper" onClick={this.togglePopup}>
             <h1
               className="book-title"
-              onClick={() => this.openBook(book.get('previewLink'), book.get('readingModes'))}
+
+              onClick={() =>
+                this.openBook(book.get('previewLink'), book.get('readingModes'))
+              }
+
             >
               {book.get('title')}
             </h1>
@@ -185,7 +195,12 @@ author_books = (book, booksByAuthor) => {
 
               {this.state.popupBookCover ? (
                 <Popup>
-                  <img src={book.get('imageLinks').get('thumbnail') + '&zoom=2'} alt="" />
+
+                  <img
+                    src={book.get('imageLinks').get('thumbnail') + '&zoom=2'}
+                    alt=""
+                  />
+
                 </Popup>
               ) : null}
             </div>
@@ -195,7 +210,11 @@ author_books = (book, booksByAuthor) => {
               </div>
               <div className="book-info">
                 {this.showPublisher(book.get('publisher')) || null}
-                <span>{this.convertPublishedDate(book.get('publishedDate'))}</span>
+
+                <span>
+                  {this.convertPublishedDate(book.get('publishedDate'))}
+                </span>
+
                 {this.showPageCount(book.get('pageCount')) || null}
               </div>
               <div className="book-description">
@@ -212,11 +231,12 @@ author_books = (book, booksByAuthor) => {
   }
 }
 const mapStateToProps = (store, props) => {
+
   return {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
     booksByAuthor: selectors.getBooksByAuthor(store),
-    isLoading: selectors.getIsLoading(store)
+    isLoading: selectors.getIsLoading(store),
   };
 };
 

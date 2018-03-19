@@ -79,8 +79,12 @@ export function booksFetch(query, queryType, startIndex) {
       .catch(error => dispatch(loadBooksFail(error.message)));
   };
 }
-
-export function booksFetchAuthor(query, queryType = 'inauthor', startIndex = '0') {
+                                       
+export function booksFetchAuthor(
+  query,
+  queryType = 'inauthor',
+  startIndex = '0',
+) {
   return dispatch => {
     searchBooks(query[0], queryType, startIndex)
       .then(response => {
@@ -94,11 +98,9 @@ export function booksFetchAuthor(query, queryType = 'inauthor', startIndex = '0'
           id,
           ...volumeInfo,
         }));
-        dispatch(
-          loadBooksSuccessAuthor(
-            booksByAuthor
-          ),
-        );
+
+        dispatch(loadBooksSuccessAuthor(booksByAuthor));
+
       })
       .catch(error => dispatch(loadBooksFail(error.message)));
   };

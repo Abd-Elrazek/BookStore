@@ -1,3 +1,4 @@
+import { List, fromJS } from 'immutable';
 import {
   LOAD_BOOKS_SUCCESS,
   LOAD_BOOK_CARD_SUCCESS,
@@ -7,11 +8,9 @@ import {
   IS_MOREBOOKS_AVAILABLE,
   LOAD_BOOKS_FAIL,
   LOAD_BOOKS_SUCCESS_AUTHOR,
-  CLEAR_BOOKS_AUTHOR,
+
   GET_BOOK_CARD_REQUEST,
 } from '../actions/actionTypes';
-
-import { List, Map, fromJS } from 'immutable';
 
 const initialState = fromJS({
   books: [],
@@ -30,18 +29,18 @@ export default function books(state = initialState, action) {
     case LOAD_BOOKS_SUCCESS:
       return state.update('books', books => books.concat(fromJS(action.books)));
 
-    case GET_BOOK_CARD_REQUEST: 
+    case GET_BOOK_CARD_REQUEST:
       return state.set('isLoading', true);
 
     case LOAD_BOOK_CARD_SUCCESS:
-      return state.set('book', fromJS(action.book))
-                  .set('isLoading', false);
+      return state.set('book', fromJS(action.book)).set('isLoading', false);
 
     case LOAD_BOOKS_SUCCESS_AUTHOR:
-      return state.set('booksByAuthor',List(fromJS(action.booksByAuthor)));
+      return state.set('booksByAuthor', fromJS(action.booksByAuthor));
 
     case CLEAR_BOOKS:
-      return state.set('books',List());
+      return state.set('books', List());
+
 
     case SET_QUERY:
       return state.set('query', action.query);

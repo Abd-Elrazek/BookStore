@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { List, Map, fromJS } from 'immutable';
-import * as selectors from '../selectors/bookCard';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const BookItem = props => {
@@ -28,7 +26,12 @@ const BookItem = props => {
             <span>
               <strong>Authors: </strong>
             </span>
-            <span>{(book.get('authors') ? book.get('authors').toArray() : []).join(', ',)}</span>
+            <span>
+              {(book.get('authors') ? book.get('authors').toArray() : []).join(
+                ', ',
+              )}
+            </span>
+
           </div>
         </section>
       </div>
@@ -51,3 +54,4 @@ BookItem.propTypes = {
     }),
   }).isRequired,
 };
+
