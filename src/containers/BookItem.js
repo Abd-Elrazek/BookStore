@@ -10,20 +10,18 @@ const BookItem = props => {
     : '';
 
   return (
-    <div>
-      <img src={imageLink} alt={book.get('title')} />
-      <div>
-        <Link to={`/book/${book.get('id')}`}>
+    <div className="booklist_item__wrapper">
+      <img className="book-img" src={imageLink} alt={book.get('title')} />
+      <div className="booklist_item__descr">
+        <Link to={`/book/${book.get('id')}`} className="title-link">
           <h2>{book.get('title')}</h2>
         </Link>
-        <h3>{book.get('subtitle')}</h3>
-        <div>
+        <h3 className="subtitle">{book.get('subtitle')}</h3>
+        <section className="booklist_item_addition_info">
           <span>
             <strong>ID: </strong>
           </span>
           <span>{book.get('id')}</span>
-        </div>
-        <section>
           <div>
             <span>
               <strong>Authors: </strong>

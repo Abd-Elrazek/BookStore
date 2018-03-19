@@ -18,6 +18,7 @@ class BookListHeader extends React.PureComponent {
     } = this.props;
     return (
       <form
+        className="search-form"
         onSubmit={e => {
           e.preventDefault();
           clearBooks();
@@ -25,7 +26,7 @@ class BookListHeader extends React.PureComponent {
         }}
       >
         <TextBox value={query} onChange={query => setQuery(query)} />
-        <button>Найти</button>
+        <button className="search_find_btn">Найти</button>
         <SelectBox
           value={queryType}
           onChange={queryType => setQueryType(queryType)}
@@ -41,13 +42,15 @@ const mapStateToProps = ({ books }) => ({
   queryType: books.get('queryType'),
 });
 
-const mapDispatchToProps = dispatch => ({
-  booksFetch: (query, queryType, startIndex = 0) =>
-    dispatch(booksFetch(query, queryType, startIndex)),
-  setQuery: query => dispatch(setQuery(query)),
-  setQueryType: queryType => dispatch(setQueryType(queryType)),
-  clearBooks: () => dispatch(clearBooks()),
-});
+const mapDispatchToProps = dispatch => {
+  return {
+    booksFetch: (query, queryType, startIndex = 0) =>
+      dispatch(booksFetch(query, queryType, startIndex)),
+    setQuery: query => dispatch(setQuery(query)),
+    setQueryType: queryType => dispatch(setQueryType(queryType)),
+    clearBooks: () => dispatch(clearBooks()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
 

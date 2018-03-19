@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import BookItem from './BookItem';
 
 class BooksList extends React.PureComponent {
   render() {
     const { books } = this.props;
-    return !books ? (
-      <div>Not loaded</div>
-    ) : (
-      <div>
+    if (!books) {
+      return <div>not loaded</div>;
+    }
+    return (
+      <div className="book-list-wrapper">
         {books.map((book, index) => {
           return <BookItem key={`${book.get('id')}${index}`} book={book} />;
         })}
