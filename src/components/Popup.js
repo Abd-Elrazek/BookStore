@@ -1,4 +1,5 @@
 import React from 'react';
+import { List, Map, fromJS } from 'immutable';
 
 export default function Popup(props) {
   // const hidePopup = props.hidePopup;

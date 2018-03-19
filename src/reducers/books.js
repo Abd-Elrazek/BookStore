@@ -11,9 +11,11 @@ import {
   GET_BOOK_CARD_REQUEST,
 } from '../actions/actionTypes';
 
-const initialState = {
+import { List, Map, fromJS } from 'immutable';
+
+const initialState = fromJS({
   books: [],
-  book: {},
+  book: [],
   isLoading: false,
   booksByAuthor: [],
   booksBySubject: [],
@@ -21,39 +23,37 @@ const initialState = {
   queryType: 'intitle',
   isMoreBooksAvailable: false,
   error: '',
-};
+});
 
 export default function books(state = initialState, action) {
   switch (action.type) {
     case LOAD_BOOKS_SUCCESS:
-      return { ...state, books: [...state.books, ...action.books] };
+      return state.update('books', books => books.concat(fromJS(action.books)));
 
-    case GET_BOOK_CARD_REQUEST: {
-      return { ...state, isLoading: true };
-    }
+    case GET_BOOK_CARD_REQUEST: 
+      return state.set('isLoading', true);
+
     case LOAD_BOOK_CARD_SUCCESS:
-      return { ...state, book: { ...action.book }, isLoading: false };
+      return state.set('book', fromJS(action.book))
+                  .set('isLoading', false);
 
     case LOAD_BOOKS_SUCCESS_AUTHOR:
-      return {...state, booksByAuthor: action.booksByAuthor };
+      return state.set('booksByAuthor',List(fromJS(action.booksByAuthor)));
 
     case CLEAR_BOOKS:
-      return { ...state, books: [] };
-
-    case CLEAR_BOOKS_AUTHOR:
-      return { ...state, booksByAuthor: [] };
+      return state.set('books',List());
 
     case SET_QUERY:
-      return { ...state, query: action.query };
+      return state.set('query', action.query);
 
     case SET_QUERYTYPE:
-      return { ...state, queryType: action.queryType };
+      return state.set('queryType', action.queryType);
 
     case IS_MOREBOOKS_AVAILABLE:
-      return { ...state, isMoreBooksAvailable: action.payload };
+      return state.set('isMoreBooksAvailable', action.payload);
 
     case LOAD_BOOKS_FAIL:
-      return { ...state, error: action.error };
+      return state.set('error', action.error);
 
     default:
       return state;

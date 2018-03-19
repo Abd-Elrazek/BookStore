@@ -1,3 +1,4 @@
+import { List, Map, fromJS } from 'immutable';
 const monthNames = [
   'января',
   'февраля',

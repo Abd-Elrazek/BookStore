@@ -1,3 +1,5 @@
+import { List, Map, fromJS } from 'immutable';
+
 import { searchBooks } from '../utils/fetchApi';
 import {
   LOAD_BOOKS_SUCCESS,
@@ -55,7 +57,7 @@ export function isMoreBooksAvailable(bool) {
 
 export function booksFetch(query, queryType, startIndex) {
   return dispatch => {
-    searchBooks(query, queryType, startIndex)
+    searchBooks(query[0], queryType, startIndex)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -94,7 +96,7 @@ export function booksFetchAuthor(query, queryType = 'inauthor', startIndex = '0'
         }));
         dispatch(
           loadBooksSuccessAuthor(
-            booksByAuthor,
+            booksByAuthor
           ),
         );
       })

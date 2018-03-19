@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List, Map, fromJS } from 'immutable';
 
 export default function TextBox({ onChange, value = '' }) {
   return (

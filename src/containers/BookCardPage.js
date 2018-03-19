@@ -13,6 +13,7 @@ import Popup from '../components/Popup';
 import monthNames from '../constants/months';
 import BooksByAuthor from '../components/BooksByAuthor';
 import Button from '../components/Button';
+import { List, Map, fromJS, toJS } from 'immutable';
 
 class BookCardPage extends React.PureComponent {
   constructor(props) {
@@ -26,9 +27,7 @@ class BookCardPage extends React.PureComponent {
     const {
       loadBookCardSuccess,
       booksFetchAuthor,
-      clearBooksAuthor,
     } = this.props;
-
     searchBookById(this.props.match.params.id)
       .then(response => response.json())
       .then(({ id, volumeInfo }) => {
@@ -116,7 +115,7 @@ class BookCardPage extends React.PureComponent {
       return (
         <div>
           <a href="#" onClick={e => this.togglePopup(e)}>
-            <img src={image.smallThumbnail} alt="" className="book-img" />
+            <img src={image.get('smallThumbnail')} alt="" className="book-img" />
           </a>
         </div>
       );
@@ -127,7 +126,7 @@ class BookCardPage extends React.PureComponent {
 
   openBook = (url, readingModes) => {
     if (url) {
-      if (readingModes.image === true) {
+      if (readingModes.get('image') === true) {
         let newUrl = url + '&printsec=frontcover#f=true';
         window.open(newUrl, 'hello', 'width=800,height=1000');
       } else {
@@ -141,10 +140,12 @@ class BookCardPage extends React.PureComponent {
   };
 
 author_books = (book,booksByAuthor) => {
-        const authors = book.authors;
+        const authors = book.get('authors');
         if (authors) {
-          return(<div><h2 className="other-books-title">Другие книги автора</h2>
-                 <BooksByAuthor booksByAuthor={booksByAuthor} /></div>)
+          return(<div>
+                  <h2 className="other-books-title">Другие книги автора</h2>
+                  <BooksByAuthor booksByAuthor={booksByAuthor} />
+                </div>)
         } else {
           return(<div><h2 className="other-books-title">Автор не указан.</h2></div>)      
         } 
@@ -153,13 +154,9 @@ author_books = (book,booksByAuthor) => {
 
   render() {
     /*Если пришли из поиска, при первом рендеринге берем книгу из массива state.books. */
-    let book = this.props.book;
-
+    const book = this.props.book;
     const isLoading = this.props.isLoading;
     const booksByAuthor = this.props.booksByAuthor;
-
-  
-
     if (isLoading===true) {
       return <h1>Loading Book...</h1>;
     }
@@ -171,11 +168,11 @@ author_books = (book,booksByAuthor) => {
           <div className="book-title-wrapper" onClick={this.togglePopup}>
             <h1
               className="book-title"
-              onClick={() => this.openBook(book.previewLink, book.readingModes)}
+              onClick={() => this.openBook(book.get('previewLink'), book.get('readingModes'))}
             >
-              {book.title}
+              {book.get('title')}
             </h1>
-            <span className="subtitle">{book.subtitle}</span>
+            <span className="subtitle">{book.get('subtitle')}</span>
             {this.state.popupNoBook ? (
               <Popup hidePopup={this.togglePopup}>
                 <span>Sorry. Could not embed the book</span>
@@ -184,25 +181,25 @@ author_books = (book,booksByAuthor) => {
           </div>
           <div className="book-item-content">
             <div className="book-img-wrapper" onClick={this.togglePopup}>
-              {this.showCoverPicture(book.imageLinks)}
+              {this.showCoverPicture(book.get('imageLinks'))}
 
               {this.state.popupBookCover ? (
                 <Popup>
-                  <img src={book.imageLinks.thumbnail + '&zoom=2'} alt="" />
+                  <img src={book.get('imageLinks').get('thumbnail') + '&zoom=2'} alt="" />
                 </Popup>
               ) : null}
             </div>
             <div className="book-descr-wrapper">
               <div className="authors-box">
-                {this.showAuthors(book.authors) || null}
+                {this.showAuthors(book.get('authors')) || null}
               </div>
               <div className="book-info">
-                {this.showPublisher(book.publisher) || null}
-                <span>{this.convertPublishedDate(book.publishedDate)}</span>
-                {this.showPageCount(book.pageCount) || null}
+                {this.showPublisher(book.get('publisher')) || null}
+                <span>{this.convertPublishedDate(book.get('publishedDate'))}</span>
+                {this.showPageCount(book.get('pageCount')) || null}
               </div>
               <div className="book-description">
-                {this.showDescription(book.description)}
+                {this.showDescription(book.get('description'))}
               </div>
             </div>
           </div>
@@ -219,7 +216,7 @@ const mapStateToProps = (store, props) => {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
     booksByAuthor: selectors.getBooksByAuthor(store),
-    isLoading: selectors.getIsLoading(store),
+    isLoading: selectors.getIsLoading(store)
   };
 };
 
@@ -235,15 +232,3 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
 
-BookCardPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      books: PropTypes.object,
-    }),
-  }).isRequired,
-  booksFetchAuthor: PropTypes.func.isRequired,
-  clearBooksAuthor: PropTypes.func.isRequired,
-  loadBookCardSuccess: PropTypes.func.isRequired,
-  getBookCardRequest: PropTypes.func.isRequired,
-};

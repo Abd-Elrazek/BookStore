@@ -6,6 +6,10 @@ import Button from '../components/Button';
 import SelectBox from '../components/SelectBox';
 import { booksFetch, setQuery, setQueryType, clearBooks } from '../actions';
 import queryParams from '../constants/queryParams';
+import { List, Map, fromJS } from 'immutable';
+import * as selectors from '../selectors/bookCard';
+
+
 
 class BookListHeader extends React.PureComponent {
   render() {
@@ -38,12 +42,10 @@ class BookListHeader extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    query: state.books.query,
-    queryType: state.books.queryType,
-  };
-};
+const mapStateToProps = ({ books }) => ({
+  query: books.get('query'),
+  queryType: books.get('queryType'),
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -56,12 +58,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
-
-BookListHeader.propTypes = {
-  booksFetch: PropTypes.func.isRequired,
-  setQuery: PropTypes.func.isRequired,
-  setQueryType: PropTypes.func.isRequired,
-  clearBooks: PropTypes.func.isRequired,
-  query: PropTypes.string.isRequired,
-  queryType: PropTypes.string.isRequired,
-};

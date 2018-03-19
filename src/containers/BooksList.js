@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import BookItem from './BookItem';
+import { List, Map, fromJS } from 'immutable';
+import * as selectors from '../selectors/bookCard';
+
 
 class BooksList extends React.PureComponent {
   render() {
@@ -12,21 +15,14 @@ class BooksList extends React.PureComponent {
     return (
       <div className="book-list-wrapper">
         {books.map((book, index) => {
-          return <BookItem key={`${book.id}${index}`} book={book} />;
+          return <BookItem key={`${book.get('id')}${index}`} book={book} />;
         })}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    books: state.books.books,
-  };
-};
+const mapStateToProps = ({ books }) => ({ books: books.get('books') });
 
 export default connect(mapStateToProps)(BooksList);
 
-BooksList.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.object),
-};

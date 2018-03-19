@@ -1,3 +1,4 @@
+import { List, Map, fromJS } from 'immutable';
 const queryParams = [
   {
     label: 'По названию',
