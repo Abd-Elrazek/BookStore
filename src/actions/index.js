@@ -1,3 +1,5 @@
+import { List, Map, fromJS } from 'immutable';
+
 import { searchBooks } from '../utils/fetchApi';
 import {
   LOAD_BOOKS_SUCCESS,
@@ -77,7 +79,7 @@ export function booksFetch(query, queryType, startIndex) {
       .catch(error => dispatch(loadBooksFail(error.message)));
   };
 }
-
+                                       
 export function booksFetchAuthor(
   query,
   queryType = 'inauthor',
@@ -96,7 +98,9 @@ export function booksFetchAuthor(
           id,
           ...volumeInfo,
         }));
+
         dispatch(loadBooksSuccessAuthor(booksByAuthor));
+
       })
       .catch(error => dispatch(loadBooksFail(error.message)));
   };

@@ -23,6 +23,7 @@ class BookCardPage extends React.PureComponent {
   }
   componentDidMount() {
     const { loadBookCardSuccess, booksFetchAuthor } = this.props;
+
     searchBookById(this.props.match.params.id)
       .then(response => response.json())
       .then(({ id, volumeInfo }) => {
@@ -164,6 +165,7 @@ class BookCardPage extends React.PureComponent {
     if (isLoading === true) {
       return <h1>Loading Book...</h1>;
     }
+
     if (!book || Object.keys(book).length === 0) {
       return null;
     } else {
@@ -172,9 +174,11 @@ class BookCardPage extends React.PureComponent {
           <div className="book-title-wrapper" onClick={this.togglePopup}>
             <h1
               className="book-title"
+
               onClick={() =>
                 this.openBook(book.get('previewLink'), book.get('readingModes'))
               }
+
             >
               {book.get('title')}
             </h1>
@@ -191,10 +195,12 @@ class BookCardPage extends React.PureComponent {
 
               {this.state.popupBookCover ? (
                 <Popup>
+
                   <img
                     src={book.get('imageLinks').get('thumbnail') + '&zoom=2'}
                     alt=""
                   />
+
                 </Popup>
               ) : null}
             </div>
@@ -204,9 +210,11 @@ class BookCardPage extends React.PureComponent {
               </div>
               <div className="book-info">
                 {this.showPublisher(book.get('publisher')) || null}
+
                 <span>
                   {this.convertPublishedDate(book.get('publishedDate'))}
                 </span>
+
                 {this.showPageCount(book.get('pageCount')) || null}
               </div>
               <div className="book-description">
@@ -223,6 +231,7 @@ class BookCardPage extends React.PureComponent {
   }
 }
 const mapStateToProps = (store, props) => {
+
   return {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
@@ -242,6 +251,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
+
 
 BookCardPage.propTypes = {
   match: PropTypes.shape({

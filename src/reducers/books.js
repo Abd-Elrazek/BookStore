@@ -8,6 +8,7 @@ import {
   IS_MOREBOOKS_AVAILABLE,
   LOAD_BOOKS_FAIL,
   LOAD_BOOKS_SUCCESS_AUTHOR,
+
   GET_BOOK_CARD_REQUEST,
 } from '../actions/actionTypes';
 
@@ -39,6 +40,7 @@ export default function books(state = initialState, action) {
 
     case CLEAR_BOOKS:
       return state.set('books', List());
+
 
     case SET_QUERY:
       return state.set('query', action.query);

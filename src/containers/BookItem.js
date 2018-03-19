@@ -31,6 +31,7 @@ const BookItem = props => {
                 ', ',
               )}
             </span>
+
           </div>
         </section>
       </div>
@@ -53,3 +54,4 @@ BookItem.propTypes = {
     }),
   }).isRequired,
 };
+
