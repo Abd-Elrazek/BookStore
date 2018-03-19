@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as selectors from '../selectors/bookCard';
 import { searchBookById } from '../utils/fetchApi';
 import {
@@ -47,23 +48,6 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-  showAuthors = authors => {
-    if (authors && authors.length > 0) {
-      return authors.map(
-        (author, index) =>
-          index !== authors.length - 1 ? (
-            <a href="#" key={`${index}`}>
-              {author}
-              <span>, </span>
-            </a>
-          ) : (
-            <a href="#" key={`${index}`}>
-              {author}
-            </a>
-          ),
-      );
-    }
-  };
 
   showPageCount = pageCount => {
     if (pageCount) {
@@ -174,11 +158,9 @@ class BookCardPage extends React.PureComponent {
           <div className="book-title-wrapper" onClick={this.togglePopup}>
             <h1
               className="book-title"
-
               onClick={() =>
                 this.openBook(book.get('previewLink'), book.get('readingModes'))
               }
-
             >
               {book.get('title')}
             </h1>
@@ -195,18 +177,19 @@ class BookCardPage extends React.PureComponent {
 
               {this.state.popupBookCover ? (
                 <Popup>
-
                   <img
                     src={book.get('imageLinks').get('thumbnail') + '&zoom=2'}
                     alt=""
                   />
-
                 </Popup>
               ) : null}
             </div>
             <div className="book-descr-wrapper">
               <div className="authors-box">
-                {this.showAuthors(book.get('authors')) || null}
+                {(book.get('authors')
+                  ? book.get('authors').toArray()
+                  : []
+                ).join(', ')}
               </div>
               <div className="book-info">
                 {this.showPublisher(book.get('publisher')) || null}
@@ -231,7 +214,6 @@ class BookCardPage extends React.PureComponent {
   }
 }
 const mapStateToProps = (store, props) => {
-
   return {
     book: selectors.getBook(store),
     bookById: selectors.getBookById(store, props.match.params.id),
@@ -251,7 +233,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
-
 
 BookCardPage.propTypes = {
   match: PropTypes.shape({
