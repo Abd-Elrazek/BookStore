@@ -7,7 +7,6 @@ import BooksList from './BooksList';
 import Button from '../components/Button';
 import { booksFetch} from '../actions';
 import * as selectors from '../selectors/bookCard';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 
 class BooksListPage extends React.PureComponent {
