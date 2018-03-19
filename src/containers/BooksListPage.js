@@ -1,5 +1,4 @@
 import React from 'react';
-import { List, Map, fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BookListHeader from './BookListHeader';
@@ -7,6 +6,8 @@ import BooksList from './BooksList';
 import Button from '../components/Button';
 import { booksFetch} from '../actions';
 import * as selectors from '../selectors/bookCard';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
 
 class BooksListPage extends React.PureComponent {
   render() {
@@ -54,3 +55,4 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BooksListPage);
+

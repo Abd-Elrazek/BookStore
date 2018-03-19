@@ -11,7 +11,7 @@ import {
 } from '../actions';
 import Popup from '../components/Popup';
 import monthNames from '../constants/months';
-import BooksByAuthor from '../components/BooksByAuthor';
+import BooksListAuthors from './BooksListAuthors';
 import Button from '../components/Button';
 import { List, Map, fromJS, toJS } from 'immutable';
 
@@ -139,12 +139,12 @@ class BookCardPage extends React.PureComponent {
     }
   };
 
-author_books = (book,booksByAuthor) => {
+author_books = (book, booksByAuthor) => {
         const authors = book.get('authors');
         if (authors) {
           return(<div>
                   <h2 className="other-books-title">Другие книги автора</h2>
-                  <BooksByAuthor booksByAuthor={booksByAuthor} />
+                  <BooksListAuthors booksByAuthor={booksByAuthor} />
                 </div>)
         } else {
           return(<div><h2 className="other-books-title">Автор не указан.</h2></div>)      
@@ -232,3 +232,12 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookCardPage);
 
+
+BookCardPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      books: PropTypes.object,
+    }),
+  }).isRequired,
+};

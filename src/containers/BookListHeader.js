@@ -58,3 +58,12 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookListHeader);
+
+BookListHeader.propTypes = {
+  booksFetch: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired,
+  setQueryType: PropTypes.func.isRequired,
+  clearBooks: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  queryType: PropTypes.string.isRequired,
+};

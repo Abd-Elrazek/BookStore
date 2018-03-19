@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, Map, fromJS } from 'immutable';
 
 export default function SelectBox({ value, onChange, options }) {
   return (

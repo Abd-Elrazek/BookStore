@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { List, Map, fromJS } from 'immutable';
 import * as selectors from '../selectors/bookCard';
-
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const BookItem = props => {
   const { book } = props;
@@ -40,3 +40,14 @@ const BookItem = props => {
 
 export default BookItem;
 
+BookItem.propTypes = {
+  book: ImmutablePropTypes.mapContains({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    authors: ImmutablePropTypes.listOf(PropTypes.string),
+    imageLinks: ImmutablePropTypes.mapContains({
+      thumbnail: PropTypes.string,
+    }),
+  }).isRequired,
+};

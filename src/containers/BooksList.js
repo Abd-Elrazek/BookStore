@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import BookItem from './BookItem';
-import { List, Map, fromJS } from 'immutable';
 import * as selectors from '../selectors/bookCard';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 
 class BooksList extends React.PureComponent {
@@ -26,3 +26,16 @@ const mapStateToProps = ({ books }) => ({ books: books.get('books') });
 
 export default connect(mapStateToProps)(BooksList);
 
+BooksList.propTypes = {
+  books: ImmutablePropTypes.listOf(
+    ImmutablePropTypes.mapContains({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      subtitle: PropTypes.string,
+      authors: ImmutablePropTypes.listOf(PropTypes.string),
+      imageLinks: ImmutablePropTypes.mapContains({
+        thumbnail: PropTypes.string,
+      }),
+    }),
+  ),
+};

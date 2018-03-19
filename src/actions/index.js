@@ -57,7 +57,7 @@ export function isMoreBooksAvailable(bool) {
 
 export function booksFetch(query, queryType, startIndex) {
   return dispatch => {
-    searchBooks(query[0], queryType, startIndex)
+    searchBooks(query, queryType, startIndex)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -82,7 +82,7 @@ export function booksFetch(query, queryType, startIndex) {
 
 export function booksFetchAuthor(query, queryType = 'inauthor', startIndex = '0') {
   return dispatch => {
-    searchBooks(query, queryType, startIndex)
+    searchBooks(query[0], queryType, startIndex)
       .then(response => {
         if (response.ok) {
           return response.json();

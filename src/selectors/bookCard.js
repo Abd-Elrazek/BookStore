@@ -1,5 +1,3 @@
-import { List, Map, fromJS } from 'immutable';
-
 const getBookCard = state => state.books;
 
 export const getBook = state => getBookCard(state).get('book');
